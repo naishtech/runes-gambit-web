@@ -73,7 +73,7 @@ Each task is complete when:
 | 03 | [Game Store Foundation (TDD)](task-03-game-store-foundation.md) | 2h | ✅ Complete | Task 01 |
 | 04 | [PlayerNameBox Component (TDD)](task-04-player-name-box.md) | 1.5h | ✅ Complete | Task 03 |
 | 05 | [LifeCounter Component (TDD)](task-05-life-counter.md) | 2h | ✅ Complete | Task 03 |
-| 06 | [ManaCounter Component (TDD)](task-06-mana-counter.md) | 1.5h | ⬜ Not Started | Task 03 |
+| 06 | [ManaCounter Component (TDD)](task-06-mana-counter.md) | 1.5h | ✅ Complete | Task 03 |
 | 07 | [SharedManaPool Component (TDD)](task-07-shared-mana-pool.md) | 1.5h | ⬜ Not Started | Task 03 |
 
 **Week 1 Total**: ~11.5 hours
