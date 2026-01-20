@@ -9,3 +9,11 @@ export function rollDice(sides = 6) {
   }
   return Math.floor(Math.random() * sides) + 1
 }
+
+/**
+ * Flips a coin to determine which player goes first
+ * @returns {'player1' | 'player2'} Random player selection
+ */
+export function flipCoin() {
+  return Math.random() < 0.5 ? 'player1' : 'player2'
+}

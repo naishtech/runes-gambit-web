@@ -56,4 +56,42 @@ describe('Random Utilities', () => {
       expect(() => rollDice(3.5)).toThrow()
     })
   })
+
+  describe('flipCoin', () => {
+    it('returns a string', () => {
+      const result = flipCoin()
+      expect(typeof result).toBe('string')
+    })
+
+    it('returns either "player1" or "player2"', () => {
+      const result = flipCoin()
+      expect(['player1', 'player2']).toContain(result)
+    })
+
+    it('produces both outcomes over many flips', () => {
+      const results = new Set()
+      for (let i = 0; i < 100; i++) {
+        results.add(flipCoin())
+      }
+      expect(results.size).toBe(2)
+      expect(results.has('player1')).toBe(true)
+      expect(results.has('player2')).toBe(true)
+    })
+
+    it('produces roughly 50/50 distribution over 1000 flips', () => {
+      const results = { player1: 0, player2: 0 }
+      const numFlips = 1000
+      
+      for (let i = 0; i < numFlips; i++) {
+        const flip = flipCoin()
+        results[flip]++
+      }
+      
+      // Each should appear ~500 times (±100 for randomness)
+      expect(results.player1).toBeGreaterThan(400)
+      expect(results.player1).toBeLessThan(600)
+      expect(results.player2).toBeGreaterThan(400)
+      expect(results.player2).toBeLessThan(600)
+    })
+  })
 })
