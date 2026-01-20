@@ -79,4 +79,74 @@ describe('ManaCounter Component', () => {
       expect(wrapper.classes()).toContain('player-blue')
     })
   })
+
+  describe('Reactivity', () => {
+    it('updates display when store mana changes', async () => {
+      const store = useGameStore()
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('0')
+
+      store.players.player1.availableMana = 3
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('3')
+    })
+
+    it('reflects multiple mana changes', async () => {
+      const store = useGameStore()
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      store.players.player1.availableMana = 5
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('5')
+
+      store.players.player1.availableMana = 2
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('2')
+
+      store.players.player1.availableMana = 0
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('0')
+    })
+
+    it('only responds to its own player mana changes', async () => {
+      const store = useGameStore()
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      store.players.player2.availableMana = 10
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('0')
+    })
+
+    it('handles large mana values', async () => {
+      const store = useGameStore()
+      store.players.player1.availableMana = 99
+
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('99')
+    })
+  })
 })
