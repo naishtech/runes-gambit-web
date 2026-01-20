@@ -1,6 +1,10 @@
 <template>
   <div class="mana-counter" :class="`player-${color}`">
-    <div class="mana-display" data-test="mana-display">
+    <div 
+      class="mana-display" 
+      data-test="mana-display"
+      :key="availableMana"
+    >
       {{ availableMana }}
     </div>
     <div class="mana-label">Available Mana</div>
@@ -48,6 +52,21 @@ const availableMana = computed(() => store.players[props.playerId].availableMana
   color: #2196F3;
   min-width: 60px;
   text-align: center;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+  animation: manaUpdate 0.5s ease;
+}
+
+@keyframes manaUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(33, 150, 243, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .mana-label {
