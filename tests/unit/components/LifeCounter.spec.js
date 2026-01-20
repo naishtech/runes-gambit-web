@@ -68,4 +68,87 @@ describe('LifeCounter Component', () => {
       expect(wrapper.classes()).toContain('player-red')
     })
   })
+
+  describe('Life Adjustment', () => {
+    it('increments life when + button clicked', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      const initialLife = store.players.player1.lifePoints
+
+      await wrapper.find('[data-test="increment-life"]').trigger('click')
+      
+      expect(store.players.player1.lifePoints).toBe(initialLife + 1)
+    })
+
+    it('decrements life when - button clicked', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      const initialLife = store.players.player1.lifePoints
+
+      await wrapper.find('[data-test="decrement-life"]').trigger('click')
+      
+      expect(store.players.player1.lifePoints).toBe(initialLife - 1)
+    })
+
+    it('updates display when life changes', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 15
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('[data-test="life-display"]').text()).toBe('15')
+    })
+
+    it('allows life to go negative', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 0
+
+      await wrapper.find('[data-test="decrement-life"]').trigger('click')
+      
+      expect(store.players.player1.lifePoints).toBe(-1)
+    })
+
+    it('can increment multiple times', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      const initialLife = store.players.player1.lifePoints
+
+      await wrapper.find('[data-test="increment-life"]').trigger('click')
+      await wrapper.find('[data-test="increment-life"]').trigger('click')
+      await wrapper.find('[data-test="increment-life"]').trigger('click')
+      
+      expect(store.players.player1.lifePoints).toBe(initialLife + 3)
+    })
+  })
 })
