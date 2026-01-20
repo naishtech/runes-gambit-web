@@ -67,6 +67,15 @@ export const useGameStore = defineStore('game', {
       return true
     },
 
+    adjustSharedManaPool(amount) {
+      this.sharedManaPool += amount
+      // Prevent negative pool
+      if (this.sharedManaPool < 0) {
+        this.sharedManaPool = 0
+      }
+      return true
+    },
+
     addLogEntry(type, message, playerId = null) {
       this.actionLog.push({
         id: `${Date.now()}-${Math.random()}`,
