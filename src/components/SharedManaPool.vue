@@ -3,10 +3,10 @@
     <div class="pool-label">Shared Mana Pool</div>
     <div class="pool-display-container">
       <button 
+        :disabled="isPoolEmpty"
         class="pool-button decrement" 
         data-test="decrement-pool"
         @click="decrementPool"
-        :disabled="isPoolEmpty"
       >
         -
       </button>
