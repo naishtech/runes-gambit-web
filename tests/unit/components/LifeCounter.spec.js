@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import LifeCounter from '@/components/LifeCounter.vue'
 import { useGameStore } from '@/stores/gameStore'
 
@@ -233,6 +233,56 @@ describe('LifeCounter Component', () => {
       await wrapper.vm.$nextTick()
 
       expect(wrapper.find('.life-display').classes()).not.toContain('life-warning')
+    })
+  })
+
+  describe('Store Integration', () => {
+    it('calls store.adjustLife with correct arguments on increment', async () => {
+      const store = useGameStore()
+      const adjustLifeSpy = vi.spyOn(store, 'adjustLife')
+
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      await wrapper.find('[data-test="increment-life"]').trigger('click')
+
+      expect(adjustLifeSpy).toHaveBeenCalledWith('player1', 1)
+    })
+
+    it('calls store.adjustLife with correct arguments on decrement', async () => {
+      const store = useGameStore()
+      const adjustLifeSpy = vi.spyOn(store, 'adjustLife')
+
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player2',
+          color: 'blue'
+        }
+      })
+
+      await wrapper.find('[data-test="decrement-life"]').trigger('click')
+
+      expect(adjustLifeSpy).toHaveBeenCalledWith('player2', -1)
+    })
+
+    it('reacts to external life changes from store', async () => {
+      const store = useGameStore()
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      // External change
+      store.players.player1.lifePoints = 7
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('[data-test="life-display"]').text()).toBe('7')
     })
   })
 })
