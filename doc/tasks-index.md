@@ -68,10 +68,10 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 01 | [Project Setup & TDD Configuration](task-01-project-setup.md) | 2-3h | ⬜ Not Started | None |
-| 02 | [Random Utilities (TDD)](task-02-random-utils.md) | 1h | ⬜ Not Started | Task 01 |
-| 03 | [Game Store Foundation (TDD)](task-03-game-store-foundation.md) | 2h | ⬜ Not Started | Task 01 |
-| 04 | [PlayerNameBox Component (TDD)](task-04-player-name-box.md) | 1.5h | ⬜ Not Started | Task 03 |
+| 01 | [Project Setup & TDD Configuration](task-01-project-setup.md) | 2-3h | ✅ Complete | None |
+| 02 | [Random Utilities (TDD)](task-02-random-utils.md) | 1h | ✅ Complete | Task 01 |
+| 03 | [Game Store Foundation (TDD)](task-03-game-store-foundation.md) | 2h | ✅ Complete | Task 01 |
+| 04 | [PlayerNameBox Component (TDD)](task-04-player-name-box.md) | 1.5h | ✅ Complete | Task 03 |
 | 05 | [LifeCounter Component (TDD)](task-05-life-counter.md) | 2h | ⬜ Not Started | Task 03 |
 | 06 | [ManaCounter Component (TDD)](task-06-mana-counter.md) | 1.5h | ⬜ Not Started | Task 03 |
 | 07 | [SharedManaPool Component (TDD)](task-07-shared-mana-pool.md) | 1.5h | ⬜ Not Started | Task 03 |
@@ -82,8 +82,8 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 08 | [Mana Store Actions (TDD)](task-08-mana-store-actions.md) | 2h | ⬜ Not Started | Task 03, 07 |
-| 09 | [CoinFlip Component (TDD)](task-09-coin-flip.md) | 2h | ⬜ Not Started | Task 02 |
+| 08 | [Mana Store Actions (TDD)](task-08-mana-store-actions.md) | 2h | 📄 Created | Task 03, 07 |
+| 09 | [CoinFlip Component (TDD)](task-09-coin-flip.md) | 2h | 📄 Created | Task 02 |
 | 10 | [Dice Component (TDD)](task-10-dice-component.md) | 3h | ⬜ Not Started | Task 02 |
 | 11 | [Turn Management Store (TDD)](task-11-turn-store.md) | 2.5h | ⬜ Not Started | Task 08 |
 | 12 | [TurnManager Component (TDD)](task-12-turn-manager.md) | 2.5h | ⬜ Not Started | Task 11 |
@@ -94,9 +94,9 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 13 | [ActionLog Component (TDD)](task-13-action-log.md) | 2h | ⬜ Not Started | Task 03 |
-| 14 | [Integration Tests](task-14-integration-tests.md) | 3h | ⬜ Not Started | Tasks 01-13 |
-| 15 | [Main App Integration](task-15-main-app.md) | 2h | ⬜ Not Started | Tasks 01-13 |
+| 13 | [ActionLog Component (TDD)](task-13-action-log.md) | 2h | 📄 Created | Task 03 |
+| 14 | [Integration Tests](task-14-integration-tests.md) | 3h | 📄 Created | Tasks 01-13 |
+| 15 | [Main App Integration](task-15-main-app.md) | 2h | 📄 Created | Tasks 01-13 |
 
 **Week 3 Total**: ~7 hours
 
@@ -104,9 +104,9 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | ⬜ Not Started | Task 03 |
-| 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | ⬜ Not Started | Task 10 |
-| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | ⬜ Not Started | All previous |
+| 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | 📄 Created | Task 03 |
+| 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | 📄 Created | Task 10 |
+| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | 📄 Created | All previous |
 
 **Week 4 Total**: ~8 hours
 
@@ -114,8 +114,8 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 19 | [CI/CD Setup (GitHub Actions)](task-19-ci-cd-setup.md) | 2h | ⬜ Not Started | Task 01 |
-| 20 | [Deployment & Documentation](task-20-deployment.md) | 3h | ⬜ Not Started | All previous |
+| 19 | [CI/CD Setup (GitHub Actions)](task-19-ci-cd-setup.md) | 2h | 📄 Created | Task 01 |
+| 20 | [Deployment & Documentation](task-20-deployment.md) | 3h | 📄 Created | All previous |
 
 **Week 5 Total**: ~5 hours
 
