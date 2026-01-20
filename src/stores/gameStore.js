@@ -35,5 +35,19 @@ export const useGameStore = defineStore('game', {
     
     // Logging
     actionLog: []
-  })
+  }),
+
+  getters: {
+    currentPlayerState: (state) => {
+      return state.currentPlayer ? state.players[state.currentPlayer] : null
+    },
+
+    opponentPlayer: (state) => {
+      if (state.currentPlayer === 'player1') return 'player2'
+      if (state.currentPlayer === 'player2') return 'player1'
+      return null
+    },
+
+    isGameActive: (state) => state.gameStarted
+  }
 })

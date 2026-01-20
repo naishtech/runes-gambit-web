@@ -56,4 +56,44 @@ describe('Game Store', () => {
       expect(store.lastDiceRoll).toBeNull()
     })
   })
+
+  describe('Getters', () => {
+    it('currentPlayerState returns current player object', () => {
+      const store = useGameStore()
+      store.currentPlayer = 'player1'
+      
+      expect(store.currentPlayerState).toEqual(store.players.player1)
+    })
+
+    it('currentPlayerState returns null when no current player', () => {
+      const store = useGameStore()
+      expect(store.currentPlayerState).toBeNull()
+    })
+
+    it('opponentPlayer returns the other player', () => {
+      const store = useGameStore()
+      store.currentPlayer = 'player1'
+      
+      expect(store.opponentPlayer).toBe('player2')
+    })
+
+    it('opponentPlayer returns player1 when player2 is current', () => {
+      const store = useGameStore()
+      store.currentPlayer = 'player2'
+      
+      expect(store.opponentPlayer).toBe('player1')
+    })
+
+    it('isGameActive returns true when game started', () => {
+      const store = useGameStore()
+      store.gameStarted = true
+      
+      expect(store.isGameActive).toBe(true)
+    })
+
+    it('isGameActive returns false when game not started', () => {
+      const store = useGameStore()
+      expect(store.isGameActive).toBe(false)
+    })
+  })
 })
