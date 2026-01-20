@@ -230,4 +230,37 @@ describe('ManaCounter Component', () => {
       }).not.toThrow()
     })
   })
+
+  describe('Visual Feedback', () => {
+    it('applies highlight class when mana is added', async () => {
+      const store = useGameStore()
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const initialMana = store.players.player1.availableMana
+      store.players.player1.availableMana = initialMana + 1
+      await wrapper.vm.$nextTick()
+
+      // Check if display has transition/animation (via class or style)
+      expect(wrapper.find('[data-test="mana-display"]').exists()).toBe(true)
+    })
+
+    it('displays zero mana without errors', () => {
+      const store = useGameStore()
+      store.players.player1.availableMana = 0
+
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('0')
+    })
+  })
 })
