@@ -119,4 +119,40 @@ describe('PlayerNameBox Component', () => {
       expect(store.players.player1.name).toBe('Red Player')
     })
   })
+
+  describe('Styling', () => {
+    it('applies red color class for player1', () => {
+      const wrapper = mount(PlayerNameBox, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      expect(wrapper.classes()).toContain('color-red')
+    })
+
+    it('applies blue color class for player2', () => {
+      const wrapper = mount(PlayerNameBox, {
+        props: {
+          playerId: 'player2',
+          color: 'blue'
+        }
+      })
+
+      expect(wrapper.classes()).toContain('color-blue')
+    })
+
+    it('has proper border color based on player color', () => {
+      const wrapper = mount(PlayerNameBox, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const input = wrapper.find('input')
+      expect(input.classes()).toContain('border-red')
+    })
+  })
 })
