@@ -151,4 +151,88 @@ describe('LifeCounter Component', () => {
       expect(store.players.player1.lifePoints).toBe(initialLife + 3)
     })
   })
+
+  describe('Warning States', () => {
+    it('applies warning class when life is below 5', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 4
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.life-display').classes()).toContain('life-warning')
+    })
+
+    it('applies critical class when life is 0 or below', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 0
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.life-display').classes()).toContain('life-critical')
+    })
+
+    it('does not apply warning class when life is 5 or above', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 5
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.life-display').classes()).not.toContain('life-warning')
+    })
+
+    it('critical takes precedence over warning', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 0
+      await wrapper.vm.$nextTick()
+
+      const display = wrapper.find('.life-display')
+      expect(display.classes()).toContain('life-critical')
+      expect(display.classes()).not.toContain('life-warning')
+    })
+
+    it('removes warning when life increases above threshold', async () => {
+      const wrapper = mount(LifeCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const store = useGameStore()
+      store.players.player1.lifePoints = 3
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.life-display').classes()).toContain('life-warning')
+
+      store.players.player1.lifePoints = 10
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.life-display').classes()).not.toContain('life-warning')
+    })
+  })
 })

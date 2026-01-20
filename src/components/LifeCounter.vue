@@ -8,7 +8,11 @@
       >
         -
       </button>
-      <div class="life-display" data-test="life-display">
+      <div 
+        class="life-display" 
+        data-test="life-display"
+        :class="lifeStatusClass"
+      >
         {{ lifePoints }}
       </div>
       <button 
@@ -44,6 +48,13 @@ const store = useGameStore()
 
 const lifePoints = computed(() => store.players[props.playerId].lifePoints)
 
+const lifeStatusClass = computed(() => {
+  const life = lifePoints.value
+  if (life <= 0) return 'life-critical'
+  if (life < 5) return 'life-warning'
+  return ''
+})
+
 const incrementLife = () => {
   store.adjustLife(props.playerId, 1)
 }
@@ -76,6 +87,39 @@ const decrementLife = () => {
   font-weight: bold;
   min-width: 80px;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.life-display.life-warning {
+  color: #FF9800;
+  animation: pulseWarning 2s ease-in-out infinite;
+}
+
+.life-display.life-critical {
+  color: #F44336;
+  animation: pulseCritical 1s ease-in-out infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulseCritical {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
+  }
+  50% {
+    transform: scale(1.1);
+    text-shadow: 0 0 15px rgba(244, 67, 54, 0.8);
+  }
 }
 
 .life-button {
