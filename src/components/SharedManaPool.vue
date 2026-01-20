@@ -10,7 +10,11 @@
       >
         -
       </button>
-      <div class="pool-display" data-test="pool-display">
+      <div 
+        :key="sharedManaPool"
+        class="pool-display" 
+        data-test="pool-display"
+      >
         {{ sharedManaPool }}
       </div>
       <button 
@@ -80,6 +84,20 @@ const decrementPool = () => {
   min-width: 100px;
   text-align: center;
   text-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+  animation: poolUpdate 0.4s ease;
+}
+
+@keyframes poolUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+    text-shadow: 0 0 20px rgba(33, 150, 243, 0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pool-button {
