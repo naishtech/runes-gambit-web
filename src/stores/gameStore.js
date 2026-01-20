@@ -65,6 +65,37 @@ export const useGameStore = defineStore('game', {
         message,
         playerId
       })
+    },
+
+    resetGame() {
+      // Preserve names
+      const player1Name = this.players.player1.name
+      const player2Name = this.players.player2.name
+      
+      // Reset to initial state
+      this.gameStarted = false
+      this.currentPlayer = null
+      this.firstPlayer = null
+      this.currentPhase = 'setup'
+      this.turnNumber = 0
+      this.lastDiceRoll = null
+      this.sharedManaPool = 20
+      this.actionLog = []
+      
+      // Reset players but keep names
+      this.players.player1 = {
+        name: player1Name,
+        color: 'red',
+        lifePoints: 20,
+        availableMana: 0
+      }
+      
+      this.players.player2 = {
+        name: player2Name,
+        color: 'blue',
+        lifePoints: 20,
+        availableMana: 0
+      }
     }
   }
 })

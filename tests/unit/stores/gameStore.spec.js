@@ -120,4 +120,45 @@ describe('Game Store', () => {
       expect(store.actionLog[0].message).toContain('Alice')
     })
   })
+
+  describe('Actions - Reset', () => {
+    it('resetGame clears all state to defaults', () => {
+      const store = useGameStore()
+      
+      // Modify state
+      store.gameStarted = true
+      store.currentPlayer = 'player1'
+      store.players.player1.lifePoints = 10
+      store.sharedManaPool = 5
+      
+      // Reset
+      store.resetGame()
+      
+      // Check defaults restored
+      expect(store.gameStarted).toBe(false)
+      expect(store.currentPlayer).toBeNull()
+      expect(store.players.player1.lifePoints).toBe(20)
+      expect(store.sharedManaPool).toBe(20)
+    })
+
+    it('resetGame clears action log', () => {
+      const store = useGameStore()
+      store.addLogEntry('info', 'Test')
+      
+      store.resetGame()
+      
+      expect(store.actionLog).toEqual([])
+    })
+
+    it('resetGame preserves player names', () => {
+      const store = useGameStore()
+      store.setPlayerName('player1', 'Alice')
+      store.setPlayerName('player2', 'Bob')
+      
+      store.resetGame()
+      
+      expect(store.players.player1.name).toBe('Alice')
+      expect(store.players.player2.name).toBe('Bob')
+    })
+  })
 })
