@@ -155,4 +155,50 @@ describe('SharedManaPool Component', () => {
       expect(wrapper.find('[data-test="pool-display"]').text()).toBe('999')
     })
   })
+
+  describe('Reactivity', () => {
+    it('reacts to external pool changes from store', async () => {
+      const store = useGameStore()
+      const wrapper = mount(SharedManaPool)
+
+      store.sharedManaPool = 10
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('[data-test="pool-display"]').text()).toBe('10')
+    })
+
+    it('updates button state when pool becomes empty externally', async () => {
+      const store = useGameStore()
+      store.sharedManaPool = 5
+
+      const wrapper = mount(SharedManaPool)
+      await wrapper.vm.$nextTick()
+
+      let decrementButton = wrapper.find('[data-test="decrement-pool"]')
+      expect(decrementButton.attributes('disabled')).toBeUndefined()
+
+      store.sharedManaPool = 0
+      await wrapper.vm.$nextTick()
+
+      decrementButton = wrapper.find('[data-test="decrement-pool"]')
+      expect(decrementButton.attributes('disabled')).toBeDefined()
+    })
+
+    it('reflects multiple rapid changes', async () => {
+      const store = useGameStore()
+      const wrapper = mount(SharedManaPool)
+
+      store.sharedManaPool = 5
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="pool-display"]').text()).toBe('5')
+
+      store.sharedManaPool = 15
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="pool-display"]').text()).toBe('15')
+
+      store.sharedManaPool = 3
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find('[data-test="pool-display"]').text()).toBe('3')
+    })
+  })
 })
