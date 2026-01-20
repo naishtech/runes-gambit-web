@@ -96,4 +96,28 @@ describe('Game Store', () => {
       expect(store.isGameActive).toBe(false)
     })
   })
+
+  describe('Actions - Player Names', () => {
+    it('setPlayerName updates player1 name', () => {
+      const store = useGameStore()
+      store.setPlayerName('player1', 'Alice')
+      
+      expect(store.players.player1.name).toBe('Alice')
+    })
+
+    it('setPlayerName updates player2 name', () => {
+      const store = useGameStore()
+      store.setPlayerName('player2', 'Bob')
+      
+      expect(store.players.player2.name).toBe('Bob')
+    })
+
+    it('setPlayerName adds to action log', () => {
+      const store = useGameStore()
+      store.setPlayerName('player1', 'Alice')
+      
+      expect(store.actionLog.length).toBeGreaterThan(0)
+      expect(store.actionLog[0].message).toContain('Alice')
+    })
+  })
 })

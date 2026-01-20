@@ -49,5 +49,22 @@ export const useGameStore = defineStore('game', {
     },
 
     isGameActive: (state) => state.gameStarted
+  },
+
+  actions: {
+    setPlayerName(playerId, name) {
+      this.players[playerId].name = name
+      this.addLogEntry('info', `${name} joined as ${playerId}`, playerId)
+    },
+
+    addLogEntry(type, message, playerId = null) {
+      this.actionLog.push({
+        id: `${Date.now()}-${Math.random()}`,
+        timestamp: new Date(),
+        type,
+        message,
+        playerId
+      })
+    }
   }
 })
