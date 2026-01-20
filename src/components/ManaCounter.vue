@@ -1,9 +1,9 @@
 <template>
   <div class="mana-counter" :class="`player-${color}`">
     <div 
+      :key="availableMana"
       class="mana-display" 
       data-test="mana-display"
-      :key="availableMana"
     >
       {{ availableMana }}
     </div>
