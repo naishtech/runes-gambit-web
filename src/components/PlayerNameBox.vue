@@ -3,13 +3,16 @@
     <input
       :data-test="`${playerId}-name`"
       :value="store.players[playerId].name"
+      @input="handleInput"
       type="text"
       class="name-input"
+      :placeholder="defaultName"
     />
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useGameStore } from '@/stores/gameStore'
 
 const props = defineProps({
@@ -26,6 +29,16 @@ const props = defineProps({
 })
 
 const store = useGameStore()
+
+const defaultName = computed(() => {
+  return props.color === 'red' ? 'Red Player' : 'Blue Player'
+})
+
+function handleInput(event) {
+  const value = event.target.value.trim()
+  const newName = value || defaultName.value
+  store.setPlayerName(props.playerId, newName)
+}
 </script>
 
 <style scoped>
