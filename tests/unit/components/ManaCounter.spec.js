@@ -149,4 +149,85 @@ describe('ManaCounter Component', () => {
       expect(wrapper.find('[data-test="mana-display"]').text()).toBe('99')
     })
   })
+
+  describe('Player-Specific Behavior', () => {
+    it('displays player2 mana correctly', () => {
+      const store = useGameStore()
+      store.players.player2.availableMana = 7
+
+      const wrapper = mount(ManaCounter, {
+        props: {
+          playerId: 'player2',
+          color: 'blue'
+        }
+      })
+
+      expect(wrapper.find('[data-test="mana-display"]').text()).toBe('7')
+    })
+
+    it('maintains separate mana counts for each player', async () => {
+      const store = useGameStore()
+      store.players.player1.availableMana = 3
+      store.players.player2.availableMana = 5
+
+      const wrapper1 = mount(ManaCounter, {
+        props: {
+          playerId: 'player1',
+          color: 'red'
+        }
+      })
+
+      const wrapper2 = mount(ManaCounter, {
+        props: {
+          playerId: 'player2',
+          color: 'blue'
+        }
+      })
+
+      expect(wrapper1.find('[data-test="mana-display"]').text()).toBe('3')
+      expect(wrapper2.find('[data-test="mana-display"]').text()).toBe('5')
+    })
+
+    it('validates playerId prop', () => {
+      // Should not throw for valid values
+      expect(() => {
+        mount(ManaCounter, {
+          props: {
+            playerId: 'player1',
+            color: 'red'
+          }
+        })
+      }).not.toThrow()
+
+      expect(() => {
+        mount(ManaCounter, {
+          props: {
+            playerId: 'player2',
+            color: 'blue'
+          }
+        })
+      }).not.toThrow()
+    })
+
+    it('validates color prop', () => {
+      // Should not throw for valid values
+      expect(() => {
+        mount(ManaCounter, {
+          props: {
+            playerId: 'player1',
+            color: 'red'
+          }
+        })
+      }).not.toThrow()
+
+      expect(() => {
+        mount(ManaCounter, {
+          props: {
+            playerId: 'player2',
+            color: 'blue'
+          }
+        })
+      }).not.toThrow()
+    })
+  })
 })
