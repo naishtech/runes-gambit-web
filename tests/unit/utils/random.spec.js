@@ -93,5 +93,10 @@ describe('Random Utilities', () => {
       expect(results.player2).toBeGreaterThan(400)
       expect(results.player2).toBeLessThan(600)
     })
+
+    it('accepts custom options', () => {
+      const result = flipCoin('heads', 'tails')
+      expect(['heads', 'tails']).toContain(result)
+    })
   })
 })

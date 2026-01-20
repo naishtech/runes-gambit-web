@@ -11,9 +11,11 @@ export function rollDice(sides = 6) {
 }
 
 /**
- * Flips a coin to determine which player goes first
- * @returns {'player1' | 'player2'} Random player selection
+ * Flips a coin to choose between two options
+ * @param {string} option1 - First option (default: 'player1')
+ * @param {string} option2 - Second option (default: 'player2')
+ * @returns {string} Randomly selected option
  */
-export function flipCoin() {
-  return Math.random() < 0.5 ? 'player1' : 'player2'
+export function flipCoin(option1 = 'player1', option2 = 'player2') {
+  return Math.random() < 0.5 ? option1 : option2
 }
