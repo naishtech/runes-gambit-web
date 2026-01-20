@@ -1,6 +1,6 @@
 # Task 04: PlayerNameBox Component (TDD)
 
-**Status**: Not Started  
+**Status**: ✅ Complete  
 **Estimated Time**: 1.5 hours  
 **Dependencies**: Task 03  
 **Week**: 1

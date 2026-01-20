@@ -1,6 +1,6 @@
 # Task 02: Random Utilities (TDD)
 
-**Status**: Not Started  
+**Status**: ✅ Complete  
 **Estimated Time**: 1 hour  
 **Dependencies**: Task 01  
 **Week**: 1
