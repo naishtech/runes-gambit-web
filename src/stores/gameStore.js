@@ -57,6 +57,16 @@ export const useGameStore = defineStore('game', {
       this.addLogEntry('info', `${name} joined as ${playerId}`, playerId)
     },
 
+    adjustLife(playerId, amount) {
+      if (!this.players[playerId]) {
+        console.warn(`Invalid player ID: ${playerId}`)
+        return false
+      }
+      
+      this.players[playerId].lifePoints += amount
+      return true
+    },
+
     addLogEntry(type, message, playerId = null) {
       this.actionLog.push({
         id: `${Date.now()}-${Math.random()}`,

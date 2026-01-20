@@ -161,4 +161,42 @@ describe('Game Store', () => {
       expect(store.players.player2.name).toBe('Bob')
     })
   })
+
+  describe('Actions - Life Adjustment', () => {
+    it('adjustLife increases life points', () => {
+      const store = useGameStore()
+      store.adjustLife('player1', 5)
+      
+      expect(store.players.player1.lifePoints).toBe(25)
+    })
+
+    it('adjustLife decreases life points', () => {
+      const store = useGameStore()
+      store.adjustLife('player1', -3)
+      
+      expect(store.players.player1.lifePoints).toBe(17)
+    })
+
+    it('adjustLife allows negative life', () => {
+      const store = useGameStore()
+      store.players.player1.lifePoints = 2
+      store.adjustLife('player1', -5)
+      
+      expect(store.players.player1.lifePoints).toBe(-3)
+    })
+
+    it('adjustLife returns true on success', () => {
+      const store = useGameStore()
+      const result = store.adjustLife('player1', 1)
+      
+      expect(result).toBe(true)
+    })
+
+    it('adjustLife returns false for invalid player', () => {
+      const store = useGameStore()
+      const result = store.adjustLife('player3', 1)
+      
+      expect(result).toBe(false)
+    })
+  })
 })
