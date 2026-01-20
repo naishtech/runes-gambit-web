@@ -6,11 +6,11 @@
     <input
       :data-test="`${playerId}-name`"
       :value="store.players[playerId].name"
-      @input="handleInput"
       type="text"
       class="name-input"
       :class="`border-${color}`"
       :placeholder="defaultName"
+      @input="handleInput"
     />
   </div>
 </template>
