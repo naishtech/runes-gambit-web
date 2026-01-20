@@ -6,6 +6,7 @@
         class="pool-button decrement" 
         data-test="decrement-pool"
         @click="decrementPool"
+        :disabled="isPoolEmpty"
       >
         -
       </button>
@@ -31,13 +32,16 @@ import { useGameStore } from '@/stores/gameStore'
 const store = useGameStore()
 
 const sharedManaPool = computed(() => store.sharedManaPool)
+const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
 
 const incrementPool = () => {
   store.adjustSharedManaPool(1)
 }
 
 const decrementPool = () => {
-  store.adjustSharedManaPool(-1)
+  if (!isPoolEmpty.value) {
+    store.adjustSharedManaPool(-1)
+  }
 }
 </script>
 
@@ -98,6 +102,16 @@ const decrementPool = () => {
 }
 
 .pool-button:active {
+  transform: scale(0.95);
+}
+
+.pool-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  background: #E3F2FD;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+}
+
+.pool-button:active:not(:disabled) {
   transform: scale(0.95);
 }
 
