@@ -279,9 +279,13 @@ Need guidance on: [Specific question]
 
 2. **Verify acceptance criteria** - All must pass
 
-3. **Final commit** with task completion message
+3. **Update task status in both places:**
+   - Update `tasks-index.md`: Change task status from "Not Started" to "✅ Complete"
+   - Update task document: Change status at top from "Not Started" to "✅ Complete"
 
-4. **Summary report:**
+4. **Final commit** with task completion message
+
+5. **Summary report:**
    ```
    ✅ Task X Complete: [Name]
    
@@ -297,6 +301,10 @@ Need guidance on: [Specific question]
    - Lint: No issues
    
    Acceptance Criteria: All met ✅
+   
+   Tasks Updated:
+   - tasks-index.md: Marked task X as complete
+   - task-XX-name.md: Updated status to complete
    
    Ready for: Task X+1
    ```
@@ -397,6 +405,8 @@ Before marking any task complete, verify:
 - [ ] Acceptance criteria met
 - [ ] Committed with proper message
 - [ ] No broken functionality in existing features
+- [ ] Task marked as complete in `tasks-index.md`
+- [ ] Task document status updated to "✅ Complete"
 
 ---
 
@@ -499,6 +509,8 @@ You're here to learn and execute efficiently. The principal developer is here to
 - Linter clean
 - Acceptance criteria met
 - Proper commit message
+- Task marked complete in tasks-index.md
+- Task document status updated to "✅ Complete"
 
 ---
 
