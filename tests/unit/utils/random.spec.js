@@ -43,5 +43,17 @@ describe('Random Utilities', () => {
         expect(count).toBeLessThan(1200)
       })
     })
+
+    it('accepts custom number of sides', () => {
+      const result = rollDice(20)
+      expect(result).toBeGreaterThanOrEqual(1)
+      expect(result).toBeLessThanOrEqual(20)
+    })
+
+    it('throws error for invalid sides', () => {
+      expect(() => rollDice(0)).toThrow()
+      expect(() => rollDice(-1)).toThrow()
+      expect(() => rollDice(3.5)).toThrow()
+    })
   })
 })

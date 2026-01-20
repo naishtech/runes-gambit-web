@@ -1,7 +1,11 @@
 /**
- * Rolls a 6-sided die
- * @returns {number} Random integer between 1 and 6
+ * Rolls a die with specified number of sides
+ * @param {number} sides - Number of sides on the die (default: 6)
+ * @returns {number} Random integer between 1 and sides
  */
-export function rollDice() {
-  return Math.floor(Math.random() * 6) + 1
+export function rollDice(sides = 6) {
+  if (sides < 1 || !Number.isInteger(sides)) {
+    throw new Error('Sides must be a positive integer')
+  }
+  return Math.floor(Math.random() * sides) + 1
 }
