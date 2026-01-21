@@ -138,6 +138,84 @@ export const useGameStore = defineStore('game', {
       return true
     },
 
+    startGame(startingPlayer) {
+      this.gameStarted = true
+      this.firstPlayer = startingPlayer
+      this.currentPlayer = startingPlayer
+      this.currentPhase = 'draw'
+      this.turnNumber = 1
+
+      // Grant 1 mana to starting player
+      this.transferManaToPlayer(startingPlayer, 1)
+
+      // Log game start
+      this.addLogEntry(
+        'success',
+        `Game started! ${this.players[startingPlayer].name} goes first.`,
+        startingPlayer
+      )
+
+      this.addLogEntry(
+        'info',
+        'Draw Phase: Collect 1 mana and draw 1 card',
+        startingPlayer
+      )
+    },
+
+    nextPhase() {
+      const phaseOrder = ['draw', 'play', 'attack', 'end']
+      const currentIndex = phaseOrder.indexOf(this.currentPhase)
+
+      if (currentIndex < phaseOrder.length - 1) {
+        this.currentPhase = phaseOrder[currentIndex + 1]
+
+        // Log phase change with instructions
+        const phaseInstructions = {
+          play: 'Play Phase: Play cards by spending mana',
+          attack: 'Attack Phase: Declare attacks and roll dice',
+          end: 'End Phase: Turn complete'
+        }
+
+        this.addLogEntry(
+          'info',
+          phaseInstructions[this.currentPhase],
+          this.currentPlayer
+        )
+      }
+    },
+
+    endTurn() {
+      // Log turn end
+      this.addLogEntry(
+        'info',
+        `${this.players[this.currentPlayer].name} ended their turn`,
+        this.currentPlayer
+      )
+
+      // Switch players
+      this.currentPlayer = this.currentPlayer === 'player1' ? 'player2' : 'player1'
+      this.turnNumber++
+
+      // Reset to draw phase
+      this.currentPhase = 'draw'
+
+      // Grant mana to new current player
+      this.transferManaToPlayer(this.currentPlayer, 1)
+
+      // Log turn start
+      this.addLogEntry(
+        'success',
+        `Turn ${this.turnNumber}: ${this.players[this.currentPlayer].name}'s turn begins`,
+        this.currentPlayer
+      )
+
+      this.addLogEntry(
+        'info',
+        'Draw Phase: Collect 1 mana and draw 1 card',
+        this.currentPlayer
+      )
+    },
+
     addLogEntry(type, message, playerId = null) {
       this.actionLog.push({
         id: `${Date.now()}-${Math.random()}`,

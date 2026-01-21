@@ -85,7 +85,7 @@ Each task is complete when:
 | 08 | [Mana Store Actions (TDD)](task-08-mana-store-actions.md) | 2h | ✅ Complete | Task 03, 07 |
 | 09 | [CoinFlip Component (TDD)](task-09-coin-flip.md) | 2h | ✅ Complete | Task 02 |
 | 10 | [Dice Component (TDD)](task-10-dice-component.md) | 3h | ✅ Complete | Task 02 |
-| 11 | [Turn Management Store (TDD)](task-11-turn-store.md) | 2.5h | ⬜ Not Started | Task 08 |
+| 11 | [Turn Management Store (TDD)](task-11-turn-store.md) | 2.5h | ✅ Complete | Task 08 |
 | 12 | [TurnManager Component (TDD)](task-12-turn-manager.md) | 2.5h | ⬜ Not Started | Task 11 |
 
 **Week 2 Total**: ~12 hours
