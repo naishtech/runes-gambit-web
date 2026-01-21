@@ -116,42 +116,38 @@ const giveManaToOpponent = () => {
 .mana-button {
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  border: 2px solid #2196F3;
-  background: white;
-  color: #2196F3;
+  border: 2px solid currentColor;
+  background: rgba(20, 15, 10, 0.9);
+  color: #5a8fc7;
   font-size: 0.875rem;
   font-weight: bold;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .mana-button:hover:not(:disabled) {
-  background: #2196F3;
-  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  background: rgba(30, 22, 15, 0.95);
 }
 
 .return-button {
-  border-color: #c49a3a;
   color: #c49a3a;
 }
 
 .return-button:hover:not(:disabled) {
-  background: #c49a3a;
-  color: #1a1410;
-  box-shadow: 0 2px 8px rgba(196, 154, 58, 0.4);
+  box-shadow: 0 3px 10px rgba(196, 154, 58, 0.4);
 }
 
 .give-button {
-  border-color: #6aaa6a;
   color: #6aaa6a;
 }
 
 .give-button:hover:not(:disabled) {
-  background: #6aaa6a;
-  color: #0f0c08;
-  box-shadow: 0 2px 8px rgba(106, 170, 106, 0.4);
+  box-shadow: 0 3px 10px rgba(106, 170, 106, 0.4);
 }
 
 .mana-button:active:not(:disabled) {
