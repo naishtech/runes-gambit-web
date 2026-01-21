@@ -7,10 +7,27 @@ afterEach(() => {
   }
 })
 
-// Mock localStorage
-global.localStorage = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn()
+// Mock localStorage with functional implementation
+class LocalStorageMock {
+  constructor() {
+    this.store = {}
+  }
+
+  getItem(key) {
+    return this.store[key] || null
+  }
+
+  setItem(key, value) {
+    this.store[key] = String(value)
+  }
+
+  removeItem(key) {
+    delete this.store[key]
+  }
+
+  clear() {
+    this.store = {}
+  }
 }
+
+global.localStorage = new LocalStorageMock()
