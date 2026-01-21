@@ -5,7 +5,7 @@
       <span class="phase-hint" v-if="!canRoll">Start the game to roll</span>
     </div>
     <div class="dice-wrapper" :class="{ disabled: !canRoll }">
-      <Dice @roll="onRoll" />
+      <Dice :color="playerColor" @roll="onRoll" />
     </div>
   </div>
 </template>
@@ -56,10 +56,15 @@ const onRoll = (value) => {
   color: #fff;
 }
 
-
 .phase-hint {
   font-size: 0.8rem;
   opacity: 0.8;
+}
+
+.dice-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dice-wrapper.disabled {
@@ -67,6 +72,11 @@ const onRoll = (value) => {
   opacity: 0.6;
 }
 
-.player-red { border-color: #ef4444; }
-.player-blue { border-color: #3b82f6; }
+.player-red { 
+  border-color: #d4534f;
+}
+
+.player-blue { 
+  border-color: #5a8fc7;
+}
 </style>

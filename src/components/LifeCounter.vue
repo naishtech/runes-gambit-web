@@ -180,10 +180,12 @@ const decrementLife = () => {
   height: 40px;
   border-radius: 50%;
   border: 2px solid currentColor;
-  background: white;
+  background: rgba(20, 15, 10, 0.9);
   color: inherit;
   font-size: 1.5rem;
   font-weight: bold;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
@@ -194,7 +196,8 @@ const decrementLife = () => {
 
 .life-button:hover {
   transform: scale(1.1);
-  background: var(--hover-color);
+  background: rgba(30, 22, 15, 0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
 }
 
 .life-button:active {
@@ -209,14 +212,14 @@ const decrementLife = () => {
 }
 
 .player-red {
-  color: #D32F2F;
-  --surface-color: #FFCDD2;
-  --hover-color: #FFEBEE;
+  color: #d4534f;
+  --surface-color: rgba(212, 83, 79, 0.1);
+  --hover-color: rgba(212, 83, 79, 0.15);
 }
 
 .player-blue {
-  color: #1976D2;
-  --surface-color: #BBDEFB;
-  --hover-color: #E3F2FD;
+  color: #5a8fc7;
+  --surface-color: rgba(90, 143, 199, 0.1);
+  --hover-color: rgba(90, 143, 199, 0.15);
 }
 </style>

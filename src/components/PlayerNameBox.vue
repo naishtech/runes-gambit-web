@@ -63,34 +63,39 @@ function handleInput(event) {
   border-radius: 8px;
   text-align: center;
   transition: all 0.2s;
+  background: rgba(20, 15, 10, 0.85);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .name-input:focus {
   outline: none;
   transform: scale(1.02);
+  background: rgba(30, 22, 15, 0.9);
+  box-shadow: 0 0 12px rgba(139, 111, 71, 0.4);
 }
 
 .color-red .player-label {
-  color: #D32F2F;
+  color: #d4534f;
 }
 
 .color-blue .player-label {
-  color: #1976D2;
+  color: #5a8fc7;
 }
 
 .border-red {
-  border-color: #D32F2F;
-  background-color: white;
-  color: #2c3e50;
+  border-color: #d4534f;
+  color: #d4534f;
 }
 
 .border-blue {
-  border-color: #1976D2;
-  background-color: white;
-  color: #2c3e50;
+  border-color: #5a8fc7;
+  color: #5a8fc7;
 }
 
 .name-input::placeholder {
-  color: #95a5a6;
+  color: #8b6f47;
+  opacity: 0.7;
 }
 </style>

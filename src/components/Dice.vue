@@ -1,5 +1,5 @@
 <template>
-  <div class="dice-container">
+  <div class="dice-container" :class="`color-${color}`">
     <div 
       class="dice-face" 
       data-test="dice-face"
@@ -19,6 +19,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { rollDice as randomRoll } from '../utils/random'
+
+const props = defineProps({
+  color: {
+    type: String,
+    default: 'neutral',
+    validator: (value) => ['red', 'blue', 'neutral'].includes(value)
+  }
+})
 
 const emit = defineEmits(['roll'])
 
@@ -67,6 +75,14 @@ defineExpose({ isRolling, currentValue, lastRoll, roll })
     linear-gradient(145deg, #1c130d 0%, #251911 60%, #1a120c 100%);
   border: 2px solid #8b6f47;
   box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.dice-container.color-red {
+  border-color: #d4534f;
+}
+
+.dice-container.color-blue {
+  border-color: #5a8fc7;
 }
 
 .dice-face {
@@ -124,6 +140,14 @@ defineExpose({ isRolling, currentValue, lastRoll, roll })
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
 }
 
+.color-red .dice-value {
+  color: #d4534f;
+}
+
+.color-blue .dice-value {
+  color: #5a8fc7;
+}
+
 .dice-label {
   font-size: 1rem;
   font-weight: 700;
@@ -133,9 +157,25 @@ defineExpose({ isRolling, currentValue, lastRoll, roll })
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+.color-red .dice-label {
+  color: #d4534f;
+}
+
+.color-blue .dice-label {
+  color: #5a8fc7;
+}
+
 .last-roll {
   font-size: 0.875rem;
   color: #d4af37;
   opacity: 0.85;
+}
+
+.color-red .last-roll {
+  color: #d4534f;
+}
+
+.color-blue .last-roll {
+  color: #5a8fc7;
 }
 </style>
