@@ -165,9 +165,17 @@ describe('Game Store', () => {
   describe('Actions - Life Adjustment', () => {
     it('adjustLife increases life points', () => {
       const store = useGameStore()
+      store.players.player1.lifePoints = 15
       store.adjustLife('player1', 5)
       
-      expect(store.players.player1.lifePoints).toBe(25)
+      expect(store.players.player1.lifePoints).toBe(20)
+    })
+    
+    it('adjustLife caps life at 20', () => {
+      const store = useGameStore()
+      store.adjustLife('player1', 5)
+      
+      expect(store.players.player1.lifePoints).toBe(20)
     })
 
     it('adjustLife decreases life points', () => {

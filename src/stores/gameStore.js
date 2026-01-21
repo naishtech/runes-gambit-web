@@ -186,7 +186,21 @@ export const useGameStore = defineStore('game', {
         return false
       }
       
-      this.players[playerId].lifePoints += amount
+      const newLife = this.players[playerId].lifePoints + amount
+      
+      // Cap life at 20
+      if (newLife > 20) {
+        this.players[playerId].lifePoints = 20
+        this.addLogEntry(
+          'info',
+          `${this.players[playerId].name} life capped at 20`,
+          playerId
+        )
+        this.autoSave()
+        return true
+      }
+      
+      this.players[playerId].lifePoints = newLife
       this.addLogEntry(
         amount > 0 ? 'success' : 'warning',
         `${this.players[playerId].name} life ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} (now ${this.players[playerId].lifePoints})`,
