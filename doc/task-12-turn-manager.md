@@ -1,6 +1,6 @@
 # Task 12: TurnManager Component (TDD)
 
-**Status**: Not Started  
+**Status**: ✅ Complete  
 **Estimated Time**: 2.5 hours  
 **Dependencies**: Task 11  
 **Week**: 2
