@@ -1,9 +1,5 @@
 <template>
   <div class="turn-manager">
-    <div class="turn-header">
-      <h3 class="turn-title">Turn Manager</h3>
-    </div>
-
     <!-- Pre-Game State -->
     <div v-if="!store.gameStarted" class="pre-game">
       <div class="phase-display">{{ store.currentPhaseInstructions }}</div>
@@ -105,22 +101,6 @@ const resetGame = () => {
   background: linear-gradient(135deg, rgba(20, 15, 10, 0.95) 0%, rgba(10, 8, 5, 0.98) 100%);
   box-shadow: inset 0 0 30px rgba(139, 111, 71, 0.1), 0 4px 12px rgba(0, 0, 0, 0.6);
   border: 2px solid #8b6f47;
-}
-
-.turn-header {
-  text-align: center;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
-  padding-bottom: 1rem;
-}
-
-.turn-title {
-  margin: 0;
-  font-size: 1.5rem;
-  font-family: 'Cinzel', serif;
-  color: #d4af37;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .pre-game, .active-game {

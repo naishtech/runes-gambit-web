@@ -1,5 +1,6 @@
 <template>
   <div class="shared-mana-pool">
+    <div class="pool-label">Shared Mana Pool</div>
     <div class="pool-display-container">
       <div 
         :key="sharedManaPool"
@@ -35,6 +36,16 @@ const sharedManaPool = computed(() => store.sharedManaPool)
   box-shadow: inset 0 0 30px rgba(90, 143, 199, 0.1), 0 4px 8px rgba(0, 0, 0, 0.5);
   border: 2px solid #5a8fc7;
   min-width: 200px;
+}
+
+.pool-label {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Cinzel', serif;
+  color: #87aed4;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .pool-display-container {

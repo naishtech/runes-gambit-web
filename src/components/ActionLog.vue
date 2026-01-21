@@ -1,18 +1,5 @@
 <template>
   <div class="action-log-container">
-    <div class="log-header">
-      <h3 class="log-title">Action Log</h3>
-      <button 
-        v-if="store.actionLog.length > 0"
-        class="clear-button"
-        data-test="clear-log"
-        @click="clearLog"
-        title="Clear log"
-      >
-        Clear
-      </button>
-    </div>
-
     <div 
       class="action-log" 
       data-test="action-log"
@@ -90,44 +77,12 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
 .action-log-container {
   display: flex;
   flex-direction: column;
-  height: 400px;
   border-radius: 12px;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 2px solid #9E9E9E;
+  background: linear-gradient(135deg, rgba(20, 15, 10, 0.95) 0%, rgba(10, 8, 5, 0.98) 100%);
+  box-shadow: inset 0 0 30px rgba(139, 111, 71, 0.1), 0 4px 12px rgba(0, 0, 0, 0.6);
+  border: 2px solid #8b6f47;
   overflow: hidden;
-}
-
-.log-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background: #F5F5F5;
-  border-bottom: 2px solid #E0E0E0;
-}
-
-.log-title {
-  margin: 0;
-  font-size: 1.25rem;
-  color: #424242;
-}
-
-.clear-button {
-  padding: 0.5rem 1rem;
-  border: 2px solid #FF5722;
-  border-radius: 6px;
-  background: white;
-  color: #FF5722;
-  font-size: 0.875rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.clear-button:hover {
-  background: #FF5722;
-  color: white;
+  max-height: 16rem;
 }
 
 .action-log {
@@ -137,6 +92,7 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  max-height: 16rem;
 }
 
 .empty-message {
@@ -150,8 +106,10 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   padding: 0.75rem;
   border-radius: 8px;
   border-left: 4px solid;
-  background: #FAFAFA;
+  background: rgba(30, 22, 15, 0.8);
+  color: #e6d6ad;
   animation: slideIn 0.3s ease;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes slideIn {
@@ -165,25 +123,10 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   }
 }
 
-.log-entry.type-info {
-  border-left-color: #2196F3;
-  background: #E3F2FD;
-}
-
-.log-entry.type-success {
-  border-left-color: #4CAF50;
-  background: #E8F5E9;
-}
-
-.log-entry.type-warning {
-  border-left-color: #FF9800;
-  background: #FFF3E0;
-}
-
-.log-entry.type-error {
-  border-left-color: #F44336;
-  background: #FFEBEE;
-}
+.log-entry.type-info { border-left-color: #5a8fc7; }
+.log-entry.type-success { border-left-color: #6aaa6a; }
+.log-entry.type-warning { border-left-color: #d4af37; }
+.log-entry.type-error { border-left-color: #d4534f; }
 
 .entry-header {
   display: flex;
@@ -193,8 +136,9 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   font-size: 0.75rem;
 }
 
+
 .entry-timestamp {
-  color: #757575;
+  color: #b8bfc7;
   font-family: monospace;
 }
 
@@ -202,21 +146,21 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   font-weight: bold;
   padding: 0.125rem 0.5rem;
   border-radius: 4px;
-  background: white;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .log-entry.player-red .entry-player {
-  color: #D32F2F;
-  border: 1px solid #D32F2F;
+  color: #d4534f;
+  border: 1px solid #d4534f;
 }
 
 .log-entry.player-blue .entry-player {
-  color: #1976D2;
-  border: 1px solid #1976D2;
+  color: #5a8fc7;
+  border: 1px solid #5a8fc7;
 }
 
 .entry-message {
-  color: #424242;
+  color: #e6d6ad;
   font-size: 0.875rem;
   line-height: 1.4;
 }
@@ -227,16 +171,16 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
 }
 
 .action-log::-webkit-scrollbar-track {
-  background: #F5F5F5;
+  background: rgba(20, 15, 10, 0.6);
   border-radius: 4px;
 }
 
 .action-log::-webkit-scrollbar-thumb {
-  background: #BDBDBD;
+  background: #8b6f47;
   border-radius: 4px;
 }
 
 .action-log::-webkit-scrollbar-thumb:hover {
-  background: #9E9E9E;
+  background: #d4af37;
 }
 </style>

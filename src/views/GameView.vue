@@ -70,7 +70,6 @@ onMounted(() => {
 
         <div class="center-section tools-section" data-test="tools-section">
           <div class="tool-item shared-pool-item" data-test="shared-pool-item">
-            <h3>Shared Mana Pool</h3>
             <SharedManaPool data-test="shared-mana-pool" />
           </div>
         </div>

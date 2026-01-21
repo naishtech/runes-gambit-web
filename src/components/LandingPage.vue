@@ -12,6 +12,14 @@
     </div>
     <div class="start-section">
       <button
+        v-if="hasSavedGame"
+        class="start-button continue-button"
+        data-test="continue-game"
+        @click="continueGame"
+      >
+        Continue Game
+      </button>
+      <button
         class="start-button"
         data-test="start-game-from-landing"
         :disabled="!winner"
@@ -27,14 +35,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGameStore } from '@/stores/gameStore'
+import { loadGameState } from '@/utils/storage'
 import CoinFlip from './CoinFlip.vue'
 
 const router = useRouter()
 const store = useGameStore()
 const winner = ref(null)
+const hasSavedGame = ref(false)
 
 const winnerName = computed(() => {
   if (!winner.value) return ''
@@ -54,6 +64,15 @@ const startGame = async () => {
   store.startGame(winner.value)
   await router.push('/game')
 }
+
+const continueGame = async () => {
+  await router.push('/game')
+}
+
+onMounted(() => {
+  const saved = loadGameState()
+  hasSavedGame.value = !!(saved && saved.gameStarted)
+})
 </script>
 
 <style scoped>
@@ -92,6 +111,16 @@ const startGame = async () => {
   background: white;
   color: #7c3aed;
   font-weight: bold;
+}
+
+.continue-button {
+  border-color: #6aaa6a;
+  color: #6aaa6a;
+}
+
+.continue-button:hover {
+  background: #6aaa6a;
+  color: #0f0c08;
 }
 
 .winner-note {
