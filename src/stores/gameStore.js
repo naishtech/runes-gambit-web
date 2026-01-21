@@ -1,6 +1,25 @@
 import { defineStore } from 'pinia'
 import { saveGameState, loadGameState, clearGameState } from '@/utils/storage'
 
+// Validation constants
+const MAX_NAME_LENGTH = 50
+const MAX_LOG_ENTRIES = 500
+
+// Validation helpers
+function sanitizePlayerName(name) {
+  if (!name || typeof name !== 'string') return ''
+  
+  // Remove HTML tags
+  const cleaned = name.replace(/<[^>]*>/g, '')
+  
+  // Truncate to max length
+  return cleaned.slice(0, MAX_NAME_LENGTH).trim()
+}
+
+function validatePlayerId(playerId, players) {
+  return playerId && players[playerId] !== undefined
+}
+
 export const useGameStore = defineStore('game', {
   state: () => {
     // Load saved state if available
@@ -101,47 +120,81 @@ export const useGameStore = defineStore('game', {
     },
 
     updatePlayerName(playerId, name) {
-      if (this.players[playerId]) {
-        this.players[playerId].name = name
-        this.autoSave()
+      if (!validatePlayerId(playerId, this.players)) {
+        console.warn(`Invalid player ID: ${playerId}`)
+        return false
       }
+
+      const sanitized = sanitizePlayerName(name)
+      this.players[playerId].name = sanitized
+      this.autoSave()
+      return true
     },
 
     adjustLife(playerId, amount) {
-      if (!this.players[playerId]) {
+      if (!validatePlayerId(playerId, this.players)) {
         console.warn(`Invalid player ID: ${playerId}`)
+        return false
+      }
+
+      if (typeof amount !== 'number' || isNaN(amount)) {
+        console.warn(`Invalid life amount: ${amount}`)
         return false
       }
       
       this.players[playerId].lifePoints += amount
+      this.addLogEntry(
+        amount > 0 ? 'success' : 'warning',
+        `${this.players[playerId].name} life ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} (now ${this.players[playerId].lifePoints})`,
+        playerId
+      )
       this.autoSave()
       return true
     },
 
     adjustSharedManaPool(amount) {
-      this.sharedManaPool += amount
-      // Prevent negative pool
-      if (this.sharedManaPool < 0) {
-        this.sharedManaPool = 0
+      if (typeof amount !== 'number' || isNaN(amount)) {
+        console.warn(`Invalid mana amount: ${amount}`)
+        return false
       }
+
+      const newValue = this.sharedManaPool + amount
+      
+      if (newValue < 0) {
+        this.addLogEntry('error', 'Cannot reduce shared mana pool below 0')
+        return false
+      }
+
+      this.sharedManaPool = newValue
+      this.addLogEntry(
+        'info',
+        `Shared mana pool ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} (now ${this.sharedManaPool})`
+      )
       this.autoSave()
       return true
     },
 
     transferManaToPlayer(playerId, amount) {
-      // Validate amount
-      if (amount <= 0) {
+      // Validate player ID
+      if (!validatePlayerId(playerId, this.players)) {
+        console.warn(`Invalid player ID: ${playerId}`)
         return false
       }
 
-      // Check if player exists
-      if (!this.players[playerId]) {
-        console.warn(`Invalid player ID: ${playerId}`)
+      // Validate amount (allow 0, but don't transfer)
+      if (typeof amount !== 'number' || isNaN(amount) || amount < 0) {
+        console.warn(`Invalid mana amount: ${amount}`)
+        return false
+      }
+
+      // Don't transfer if amount is 0
+      if (amount === 0) {
         return false
       }
 
       // Check if pool has enough mana
       if (this.sharedManaPool < amount) {
+        this.addLogEntry('error', 'Not enough mana in pool')
         return false
       }
 
@@ -151,8 +204,8 @@ export const useGameStore = defineStore('game', {
 
       // Log the transfer
       this.addLogEntry(
-        'info',
-        `${this.players[playerId].name} took ${amount} mana from the pool`,
+        'success',
+        `${this.players[playerId].name} received ${amount} mana from pool`,
         playerId
       )
 
@@ -161,19 +214,30 @@ export const useGameStore = defineStore('game', {
     },
 
     returnManaToPool(playerId, amount) {
-      // Validate amount
-      if (amount <= 0) {
+      // Validate player ID
+      if (!validatePlayerId(playerId, this.players)) {
+        console.warn(`Invalid player ID: ${playerId}`)
         return false
       }
 
-      // Check if player exists
-      if (!this.players[playerId]) {
-        console.warn(`Invalid player ID: ${playerId}`)
+      // Validate amount (allow 0, but don't transfer)
+      if (typeof amount !== 'number' || isNaN(amount) || amount < 0) {
+        console.warn(`Invalid mana amount: ${amount}`)
+        return false
+      }
+
+      // Don't return if amount is 0
+      if (amount === 0) {
         return false
       }
 
       // Check if player has enough mana
       if (this.players[playerId].availableMana < amount) {
+        this.addLogEntry(
+          'error',
+          `${this.players[playerId].name} doesn't have enough mana`,
+          playerId
+        )
         return false
       }
 
@@ -184,7 +248,7 @@ export const useGameStore = defineStore('game', {
       // Log the return
       this.addLogEntry(
         'info',
-        `${this.players[playerId].name} returned ${amount} mana to the pool`,
+        `${this.players[playerId].name} returned ${amount} mana to pool`,
         playerId
       )
 
@@ -193,6 +257,16 @@ export const useGameStore = defineStore('game', {
     },
 
     startGame(startingPlayer) {
+      if (this.gameStarted) {
+        console.warn('Game already started')
+        return false
+      }
+
+      if (!validatePlayerId(startingPlayer, this.players)) {
+        console.warn(`Invalid starting player: ${startingPlayer}`)
+        return false
+      }
+
       this.gameStarted = true
       this.firstPlayer = startingPlayer
       this.currentPlayer = startingPlayer
@@ -216,33 +290,48 @@ export const useGameStore = defineStore('game', {
       )
 
       this.autoSave()
+      return true
     },
 
     nextPhase() {
+      if (!this.gameStarted) {
+        console.warn('Cannot advance phase: game not started')
+        return false
+      }
+
       const phaseOrder = ['draw', 'play', 'attack', 'end']
       const currentIndex = phaseOrder.indexOf(this.currentPhase)
 
-      if (currentIndex < phaseOrder.length - 1) {
-        this.currentPhase = phaseOrder[currentIndex + 1]
-
-        // Log phase change with instructions
-        const phaseInstructions = {
-          play: 'Play Phase: Play cards by spending mana',
-          attack: 'Attack Phase: Declare attacks and roll dice',
-          end: 'End Phase: Turn complete'
-        }
-
-        this.addLogEntry(
-          'info',
-          phaseInstructions[this.currentPhase],
-          this.currentPlayer
-        )
-
-        this.autoSave()
+      if (currentIndex === -1 || currentIndex >= phaseOrder.length - 1) {
+        console.warn('Already at end phase')
+        return false
       }
+
+      this.currentPhase = phaseOrder[currentIndex + 1]
+
+      // Log phase change with instructions
+      const phaseInstructions = {
+        play: 'Play Phase: Play cards by spending mana',
+        attack: 'Attack Phase: Declare attacks and roll dice',
+        end: 'End Phase: Turn complete'
+      }
+
+      this.addLogEntry(
+        'info',
+        phaseInstructions[this.currentPhase],
+        this.currentPlayer
+      )
+
+      this.autoSave()
+      return true
     },
 
     endTurn() {
+      if (!this.gameStarted) {
+        console.warn('Cannot end turn: game not started')
+        return false
+      }
+
       // Log turn end
       this.addLogEntry(
         'info',
@@ -274,16 +363,35 @@ export const useGameStore = defineStore('game', {
       )
 
       this.autoSave()
+      return true
     },
 
     addLogEntry(type, message, playerId = null) {
+      if (!message || typeof message !== 'string') {
+        console.warn('Invalid log message')
+        return
+      }
+
+      const validTypes = ['info', 'success', 'warning', 'error']
+      const logType = validTypes.includes(type) ? type : 'info'
+
       this.actionLog.push({
         id: `${Date.now()}-${Math.random()}`,
         timestamp: new Date(),
-        type,
+        type: logType,
         message,
         playerId
       })
+
+      // Trim log if it gets too long
+      if (this.actionLog.length > MAX_LOG_ENTRIES) {
+        this.actionLog = this.actionLog.slice(-MAX_LOG_ENTRIES)
+      }
+    },
+
+    // Alias for addLogEntry (backward compatibility)
+    logAction(message, type = 'info', playerId = null) {
+      this.addLogEntry(type, message, playerId)
     },
 
     clearActionLog() {

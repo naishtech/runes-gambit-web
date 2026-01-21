@@ -175,4 +175,42 @@ describe('Storage Utility', () => {
       expect(() => clearGameState()).not.toThrow()
     })
   })
+
+  describe('Storage Error Recovery', () => {
+    it('handles corrupted localStorage data', () => {
+      localStorage.setItem('runesGambitState', 'corrupted{data}')
+
+      const loaded = loadGameState()
+      expect(loaded).toBeNull()
+    })
+
+    it('handles quota exceeded error on save', () => {
+      const setItemSpy = vi.spyOn(Storage.prototype, 'setItem')
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation()
+      
+      setItemSpy.mockImplementation(() => {
+        throw new DOMException('QuotaExceededError')
+      })
+
+      const gameState = { players: {}, largeData: 'x'.repeat(10000000) }
+      
+      // Should not throw
+      expect(() => saveGameState(gameState)).not.toThrow()
+
+      setItemSpy.mockRestore()
+      consoleSpy.mockRestore()
+    })
+
+    it('handles missing localStorage API gracefully', () => {
+      const originalLocalStorage = global.localStorage
+      delete global.localStorage
+
+      const gameState = { players: {} }
+      
+      // Should not throw even if localStorage is unavailable
+      expect(() => saveGameState(gameState)).not.toThrow()
+
+      global.localStorage = originalLocalStorage
+    })
+  })
 })
