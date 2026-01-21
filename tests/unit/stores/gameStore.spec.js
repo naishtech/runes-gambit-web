@@ -185,12 +185,15 @@ describe('Game Store', () => {
       expect(store.players.player1.lifePoints).toBe(17)
     })
 
-    it('adjustLife allows negative life', () => {
+    it('adjustLife caps life at 0 and detects winner', () => {
       const store = useGameStore()
       store.players.player1.lifePoints = 2
+      store.players.player1.name = 'Test Player 1'
+      store.players.player2.name = 'Test Player 2'
       store.adjustLife('player1', -5)
       
-      expect(store.players.player1.lifePoints).toBe(-3)
+      expect(store.players.player1.lifePoints).toBe(0)
+      expect(store.gameWinner).toBe('player2')
     })
 
     it('adjustLife returns true on success', () => {

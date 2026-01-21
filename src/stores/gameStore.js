@@ -28,6 +28,7 @@ export const useGameStore = defineStore('game', {
     const defaultState = {
       // Game metadata
       gameStarted: false,
+      gameWinner: null,
       
       // Players
       players: {
@@ -195,6 +196,20 @@ export const useGameStore = defineStore('game', {
           'info',
           `${this.players[playerId].name} life capped at 20`,
           playerId
+        )
+        this.autoSave()
+        return true
+      }
+      
+      // Cap life at 0 and check for win
+      if (newLife <= 0) {
+        this.players[playerId].lifePoints = 0
+        const opponentId = playerId === 'player1' ? 'player2' : 'player1'
+        this.gameWinner = opponentId
+        this.addLogEntry(
+          'success',
+          `🎉 ${this.players[opponentId].name} wins! ${this.players[playerId].name} has been defeated!`,
+          opponentId
         )
         this.autoSave()
         return true
@@ -464,6 +479,7 @@ export const useGameStore = defineStore('game', {
       
       // Reset to initial state
       this.gameStarted = false
+      this.gameWinner = null
       this.currentPlayer = null
       this.firstPlayer = null
       this.currentPhase = 'setup'
