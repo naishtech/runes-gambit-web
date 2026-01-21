@@ -14,6 +14,7 @@
       :key="availableMana"
       class="mana-display" 
       data-test="mana-display"
+      :class="manaDisplayClass"
     >
       {{ availableMana }}
     </div>
@@ -22,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const props = defineProps({
@@ -39,9 +40,25 @@ const props = defineProps({
 })
 
 const store = useGameStore()
+const previousMana = ref(0)
+const manaPulsing = ref(false)
 
 const availableMana = computed(() => store.players[props.playerId].availableMana)
 const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
+
+const manaDisplayClass = computed(() => {
+  return manaPulsing.value ? 'mana-pulse' : ''
+})
+
+watch(availableMana, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    previousMana.value = oldVal
+    manaPulsing.value = true
+    setTimeout(() => {
+      manaPulsing.value = false
+    }, 600)
+  }
+})
 
 const takeMana = () => {
   store.transferManaToPlayer(props.playerId, 1)
@@ -104,6 +121,15 @@ const takeMana = () => {
   text-align: center;
   transition: transform 0.3s ease, text-shadow 0.3s ease;
   animation: manaUpdate 0.5s ease;
+}
+
+.mana-display.mana-pulse {
+  animation: mana-pulse 0.6s ease;
+}
+
+@keyframes mana-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px currentColor; }
+  50% { transform: scale(1.15); box-shadow: 0 0 20px currentColor; }
 }
 
 @keyframes manaUpdate {

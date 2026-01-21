@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useGameStore } from '../stores/gameStore'
 
 const props = defineProps({
@@ -45,22 +45,47 @@ const props = defineProps({
 })
 
 const store = useGameStore()
+const animating = ref(false)
+const animationType = ref('')
 
 const lifePoints = computed(() => store.players[props.playerId].lifePoints)
 
 const lifeStatusClass = computed(() => {
   const life = lifePoints.value
-  if (life <= 0) return 'life-critical'
-  if (life < 5) return 'life-warning'
-  return ''
+  let classes = ''
+  
+  // Critical takes precedence over warning
+  if (life <= 0) {
+    classes += 'life-critical '
+  } else if (life < 5) {
+    classes += 'life-warning '
+  }
+  
+  if (animating.value) {
+    if (animationType.value === 'increase') classes += 'life-increase '
+    if (animationType.value === 'decrease') classes += 'life-decrease '
+  }
+  
+  return classes.trim()
 })
+
+const triggerAnimation = (type) => {
+  animating.value = true
+  animationType.value = type
+  setTimeout(() => {
+    animating.value = false
+    animationType.value = ''
+  }, 500)
+}
 
 const incrementLife = () => {
   store.adjustLife(props.playerId, 1)
+  triggerAnimation('increase')
 }
 
 const decrementLife = () => {
   store.adjustLife(props.playerId, -1)
+  triggerAnimation('decrease')
 }
 </script>
 
@@ -98,6 +123,34 @@ const decrementLife = () => {
 .life-display.life-critical {
   color: #F44336;
   animation: pulseCritical 1s ease-in-out infinite;
+}
+
+.life-display.life-increase {
+  animation: pulse-increase 0.5s ease, flash-green 0.5s ease;
+}
+
+.life-display.life-decrease {
+  animation: pulse-decrease 0.5s ease, flash-red 0.5s ease;
+}
+
+@keyframes pulse-increase {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes pulse-decrease {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+}
+
+@keyframes flash-green {
+  0%, 100% { background-color: rgba(0, 255, 0, 0); }
+  50% { background-color: rgba(0, 255, 0, 0.3); }
+}
+
+@keyframes flash-red {
+  0%, 100% { background-color: rgba(255, 0, 0, 0); }
+  50% { background-color: rgba(255, 0, 0, 0.3); }
 }
 
 @keyframes pulseWarning {
