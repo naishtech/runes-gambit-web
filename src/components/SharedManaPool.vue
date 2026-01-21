@@ -31,7 +31,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useGameStore } from '@/stores/gameStore'
+import { useGameStore } from '../stores/gameStore'
 
 const store = useGameStore()
 
@@ -111,6 +111,10 @@ const decrementPool = () => {
   color: #2196F3;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .pool-button:hover {

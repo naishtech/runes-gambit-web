@@ -29,7 +29,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useGameStore } from '@/stores/gameStore'
+import { useGameStore } from '../stores/gameStore'
 
 const props = defineProps({
   playerId: {
@@ -128,10 +128,15 @@ const decrementLife = () => {
   border-radius: 50%;
   border: 2px solid currentColor;
   background: white;
+  color: inherit;
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .life-button:hover {

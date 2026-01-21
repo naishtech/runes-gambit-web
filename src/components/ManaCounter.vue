@@ -1,5 +1,15 @@
 <template>
   <div class="mana-counter" :class="`player-${color}`">
+    <div class="mana-controls">
+      <button 
+        :disabled="isPoolEmpty"
+        class="mana-button" 
+        data-test="take-mana-button"
+        @click="takeMana"
+      >
+        Take from Pool
+      </button>
+    </div>
     <div 
       :key="availableMana"
       class="mana-display" 
@@ -13,7 +23,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useGameStore } from '@/stores/gameStore'
+import { useGameStore } from '../stores/gameStore'
 
 const props = defineProps({
   playerId: {
@@ -31,6 +41,14 @@ const props = defineProps({
 const store = useGameStore()
 
 const availableMana = computed(() => store.players[props.playerId].availableMana)
+const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
+
+const takeMana = () => {
+  if (!isPoolEmpty.value) {
+    store.adjustSharedManaPool(-1)
+    store.players[props.playerId].availableMana += 1
+  }
+}
 </script>
 
 <style scoped>
@@ -44,6 +62,41 @@ const availableMana = computed(() => store.players[props.playerId].availableMana
   background: var(--surface-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-width: 120px;
+}
+
+.mana-controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.mana-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 2px solid #2196F3;
+  background: white;
+  color: #2196F3;
+  font-size: 0.875rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mana-button:hover:not(:disabled) {
+  background: #2196F3;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+}
+
+.mana-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.mana-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .mana-display {

@@ -17,7 +17,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useGameStore } from '@/stores/gameStore'
+import { useGameStore } from '../stores/gameStore'
 
 const props = defineProps({
   playerId: {
@@ -83,11 +83,17 @@ function handleInput(event) {
 
 .border-red {
   border-color: #D32F2F;
-  background-color: #FFEBEE;
+  background-color: white;
+  color: #2c3e50;
 }
 
 .border-blue {
   border-color: #1976D2;
-  background-color: #E3F2FD;
+  background-color: white;
+  color: #2c3e50;
+}
+
+.name-input::placeholder {
+  color: #95a5a6;
 }
 </style>
