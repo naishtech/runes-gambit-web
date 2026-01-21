@@ -200,12 +200,12 @@ const giveManaToOpponent = () => {
 }
 
 .player-red {
-  --surface-color: #FFCDD2;
-  --text-color: #D32F2F;
+  --surface-color: rgba(212, 83, 79, 0.1);
+  --text-color: #d4534f;
 }
 
 .player-blue {
-  --surface-color: #BBDEFB;
-  --text-color: #1976D2;
+  --surface-color: rgba(90, 143, 199, 0.1);
+  --text-color: #5a8fc7;
 }
 </style>

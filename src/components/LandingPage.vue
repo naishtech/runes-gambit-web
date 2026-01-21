@@ -85,8 +85,10 @@ onMounted(() => {
 }
 
 .title {
-  color: #d8b4fe;
+  color: #d4af37;
   text-align: center;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .coin-section {
@@ -95,6 +97,9 @@ onMounted(() => {
 
 .coin-section h3 {
   text-align: center;
+  color: #b8956a;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .start-section {
@@ -106,25 +111,40 @@ onMounted(() => {
 
 .start-button {
   padding: 0.75rem 1.5rem;
-  border: 2px solid #7c3aed;
+  border: 2px solid currentColor;
   border-radius: 8px;
-  background: white;
-  color: #7c3aed;
+  background: rgba(20, 15, 10, 0.9);
+  color: #5a8fc7;
   font-weight: bold;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  background: rgba(30, 22, 15, 0.95);
+}
+
+.start-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .continue-button {
-  border-color: #6aaa6a;
   color: #6aaa6a;
 }
 
 .continue-button:hover {
-  background: #6aaa6a;
-  color: #0f0c08;
+  box-shadow: 0 3px 10px rgba(106, 170, 106, 0.4);
 }
 
 .winner-note {
-  color: #a78bfa;
+  color: #d4af37;
   text-align: center;
+  font-style: italic;
 }
 </style>
