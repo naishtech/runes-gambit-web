@@ -358,6 +358,51 @@ git commit -m "chore: update dependencies"
 
 ---
 
+## Terminal & Command Execution
+
+### PowerShell Commands Only
+
+**IMPORTANT**: The development environment runs on **Windows with PowerShell**. Always use PowerShell-compatible commands.
+
+**❌ DO NOT use bash/Unix commands:**
+- `tail` - Use `Select-Object -Last N` instead
+- `head` - Use `Select-Object -First N` instead
+- `grep` - Use `Select-String` instead
+- `cat` - Use `Get-Content` instead
+- `ls` - Use `Get-ChildItem` instead
+
+**✅ PowerShell equivalents:**
+
+```powershell
+# View last 30 lines of output
+npm run test 2>&1 | Select-Object -Last 30
+
+# View first 20 lines of output
+npm run test 2>&1 | Select-Object -First 20
+
+# Search for text in output
+npm run test 2>&1 | Select-String "pattern"
+
+# View file contents
+Get-Content filename.txt
+
+# List directory contents
+Get-ChildItem
+
+# Chain commands with semicolon or pipe
+npm run test ; npm run lint
+npm run test | Select-Object -Last 10
+```
+
+### When Running Commands
+
+1. **Always use full PowerShell syntax** for piping and filtering
+2. **Avoid Unix utilities** - they may not be available
+3. **Use native PowerShell cmdlets** when possible
+4. **For long output**, use `Select-Object -Last N` to view results
+
+---
+
 ## Error Handling Strategy
 
 ### When Tests Fail
