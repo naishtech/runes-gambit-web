@@ -4,6 +4,14 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useGameStore } from '@/stores/gameStore'
 
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual('vue-router')
+  return {
+    ...actual,
+    useRouter: () => ({ push: vi.fn() })
+  }
+})
+
 // Import components
 import PlayerNameBox from '@/components/PlayerNameBox.vue'
 import LifeCounter from '@/components/LifeCounter.vue'
@@ -113,21 +121,6 @@ describe('Integration Tests - Complete Game Flow', () => {
       await turnManager.vm.$nextTick()
       expect(store.currentPhase).toBe('draw')
 
-      // Draw phase -> Play phase
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
-      await turnManager.vm.$nextTick()
-      expect(store.currentPhase).toBe('play')
-
-      // Play phase -> Attack phase
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
-      await turnManager.vm.$nextTick()
-      expect(store.currentPhase).toBe('attack')
-
-      // Attack phase -> End phase
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
-      await turnManager.vm.$nextTick()
-      expect(store.currentPhase).toBe('end')
-
       // End turn -> Switch to player2
       await turnManager.find('[data-test="end-turn"]').trigger('click')
       await turnManager.vm.$nextTick()
@@ -161,12 +154,8 @@ describe('Integration Tests - Complete Game Flow', () => {
       await turnManager.vm.$nextTick()
       const initialLogCount = store.actionLog.length
 
-      // Advance through phases
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
-      await turnManager.vm.$nextTick()
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
-      await turnManager.vm.$nextTick()
-      await turnManager.find('[data-test="next-phase"]').trigger('click')
+      // End current turn
+      await turnManager.find('[data-test="end-turn"]').trigger('click')
       await turnManager.vm.$nextTick()
 
       expect(store.actionLog.length).toBeGreaterThan(initialLogCount)

@@ -4,6 +4,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import TurnManager from '@/components/TurnManager.vue'
 import { useGameStore } from '@/stores/gameStore'
 
+vi.mock('vue-router', () => ({
+  useRouter: () => ({
+    push: vi.fn()
+  })
+}))
+
 describe('TurnManager Component', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -27,82 +33,36 @@ describe('TurnManager Component', () => {
     it('does not show turn controls before game starts', () => {
       const wrapper = mount(TurnManager)
 
-      expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(false)
       expect(wrapper.find('[data-test="end-turn"]').exists()).toBe(false)
     })
   })
 
-  describe('Game Start', () => {
-    it('shows active game controls after external start', async () => {
+  describe('Simplified Active Game', () => {
+    it('shows static instructions list with all phases', async () => {
       const store = useGameStore()
       const wrapper = mount(TurnManager)
 
       store.startGame('player1')
       await wrapper.vm.$nextTick()
 
-      expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(true)
-      expect(wrapper.find('[data-test="reset-game"]').exists()).toBe(true)
-    })
-  })
-
-  describe('Phase Navigation', () => {
-    it('advances phase when next phase clicked', async () => {
-      const store = useGameStore()
-      const wrapper = mount(TurnManager)
-
-      store.startGame('player1')
-      await wrapper.vm.$nextTick()
-
-      await wrapper.find('[data-test="next-phase"]').trigger('click')
-
-      expect(store.currentPhase).toBe('play')
+      const items = wrapper.findAll('[data-test="instruction-item"]')
+      expect(items.length).toBeGreaterThanOrEqual(4)
+      const text = items.map((i) => i.text()).join(' ')
+      expect(text).toContain('Draw')
+      expect(text).toContain('Play')
+      expect(text).toContain('Attack')
+      expect(text).toContain('End')
     })
 
-    it('displays current phase name', async () => {
+    it('shows end turn and reset controls after start', async () => {
       const store = useGameStore()
       const wrapper = mount(TurnManager)
 
       store.startGame('player1')
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.text()).toContain('draw')
-
-      store.nextPhase()
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.text()).toContain('play')
-    })
-
-    it('displays phase instructions', async () => {
-      const store = useGameStore()
-      const wrapper = mount(TurnManager)
-
-      store.startGame('player1')
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.find('.phase-instructions').text()).toContain('Draw')
-    })
-
-    it('hides next phase button at end phase', async () => {
-      const store = useGameStore()
-      const wrapper = mount(TurnManager)
-
-      store.startGame('player1')
-      store.currentPhase = 'end'
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(false)
-    })
-
-    it('shows end turn button at end phase', async () => {
-      const store = useGameStore()
-      const wrapper = mount(TurnManager)
-
-      store.startGame('player1')
-      store.currentPhase = 'end'
       await wrapper.vm.$nextTick()
 
       expect(wrapper.find('[data-test="end-turn"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="reset-game"]').exists()).toBe(true)
     })
   })
 
@@ -112,7 +72,6 @@ describe('TurnManager Component', () => {
       const wrapper = mount(TurnManager)
 
       store.startGame('player1')
-      store.currentPhase = 'end'
       await wrapper.vm.$nextTick()
 
       await wrapper.find('[data-test="end-turn"]').trigger('click')
@@ -231,7 +190,6 @@ describe('TurnManager Component', () => {
       await wrapper.vm.$nextTick()
       expect(store.gameStarted).toBe(false)
       expect(wrapper.find('[data-test="pre-game-note"]').exists()).toBe(true)
-      expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(false)
       expect(wrapper.find('[data-test="end-turn"]').exists()).toBe(false)
     })
   })

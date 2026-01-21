@@ -2,9 +2,9 @@
   <div class="player-dice" :class="`player-${playerColor}`">
     <div class="dice-header">
       <span class="player-name">{{ playerName }}'s Dice</span>
-      <span class="phase-hint" v-if="!isAttackPhase">Available during Attack phase</span>
+      <span class="phase-hint" v-if="!canRoll">Start the game to roll</span>
     </div>
-    <div class="dice-wrapper" :class="{ disabled: !isAttackPhase }">
+    <div class="dice-wrapper" :class="{ disabled: !canRoll }">
       <Dice @roll="onRoll" />
     </div>
   </div>
@@ -26,10 +26,10 @@ const store = useGameStore()
 
 const playerName = computed(() => store.players[props.playerId]?.name || '')
 const playerColor = computed(() => store.players[props.playerId]?.color || 'neutral')
-const isAttackPhase = computed(() => store.currentPhase === 'attack')
+const canRoll = computed(() => store.gameStarted)
 
 const onRoll = (value) => {
-  if (!isAttackPhase.value) return
+  if (!canRoll.value) return
   store.addLogEntry('info', `${playerName.value} rolled a ${value}`, props.playerId)
 }
 </script>
@@ -55,6 +55,7 @@ const onRoll = (value) => {
 .player-name {
   color: #fff;
 }
+
 
 .phase-hint {
   font-size: 0.8rem;

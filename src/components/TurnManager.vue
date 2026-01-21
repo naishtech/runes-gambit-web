@@ -18,33 +18,30 @@
         <span class="turn-number">(Turn {{ store.turnNumber }})</span>
       </div>
 
-      <div class="phase-display">
-        <span class="phase-label">Phase:</span>
-        <span class="phase-name">{{ store.currentPhase }}</span>
-      </div>
-
-      <div class="phase-instructions">
-        {{ store.currentPhaseInstructions }}
+      <div class="instruction-panel">
+        <div class="instructions-title">Turn Actions</div>
+        <ul class="instruction-list">
+          <li
+            v-for="step in turnInstructions"
+            :key="step.label"
+            class="instruction-item"
+            data-test="instruction-item"
+          >
+            <span class="instruction-label">{{ step.label }}:</span>
+            <span class="instruction-text">{{ step.text }}</span>
+          </li>
+        </ul>
       </div>
 
       <div class="turn-controls">
-        <button 
-          v-if="store.canAdvancePhase"
-          class="control-button next-phase"
-          data-test="next-phase"
-          @click="nextPhase"
-        >
-          Next Phase
-        </button>
-        <button 
-          v-if="store.currentPhase === 'end'"
+        <button
           class="control-button end-turn"
           data-test="end-turn"
           @click="endTurn"
         >
           End Turn
         </button>
-        <button 
+        <button
           v-if="store.gameStarted"
           class="control-button reset-game"
           data-test="reset-game"
@@ -74,9 +71,24 @@ const currentPlayerColor = computed(() => {
   return store.currentPlayer === 'player1' ? 'red' : 'blue'
 })
 
-const nextPhase = () => {
-  store.nextPhase()
-}
+const turnInstructions = [
+  {
+    label: 'Draw',
+    text: 'Collect 1 mana and draw 1 card.'
+  },
+  {
+    label: 'Play',
+    text: 'Cast spells or activate abilities by spending mana as you choose.'
+  },
+  {
+    label: 'Attack',
+    text: 'Declare attacks and resolve combat using dice if needed.'
+  },
+  {
+    label: 'End',
+    text: 'Finalize effects, cleanup, and end the turn when ready.'
+  }
+]
 
 const endTurn = () => {
   store.endTurn()
@@ -107,36 +119,6 @@ const resetGame = () => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.start-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.start-button {
-  padding: 1rem 2rem;
-  border: 3px solid currentColor;
-  border-radius: 8px;
-  font-size: 1.125rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  background: white;
-}
-
-.start-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.start-button.player-red {
-  color: #d4534f;
-}
-
-.start-button.player-blue {
-  color: #5a8fc7;
 }
 
 .pre-game-note {
@@ -184,26 +166,6 @@ const resetGame = () => {
   border: 1px solid rgba(139, 111, 71, 0.3);
 }
 
-.phase-label {
-  font-weight: bold;
-  color: #b8956a;
-}
-
-.phase-name {
-  text-transform: capitalize;
-  font-weight: bold;
-  color: #d4af37;
-}
-
-.phase-instructions {
-  padding: 1rem;
-  background: rgba(30, 40, 50, 0.5);
-  border-left: 4px solid #5a8fc7;
-  border-radius: 4px;
-  color: #87aed4;
-  font-style: italic;
-}
-
 .turn-controls {
   display: flex;
   gap: 0.75rem;
@@ -231,15 +193,53 @@ const resetGame = () => {
   background: rgba(30, 22, 15, 0.95);
 }
 
-.next-phase {
-  color: #5a8fc7;
-}
-
 .end-turn {
   color: #6aaa6a;
 }
 
 .reset-game {
   color: #d4534f;
+}
+
+.instruction-panel {
+  background: rgba(30, 22, 15, 0.8);
+  border: 1px solid rgba(139, 111, 71, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.instructions-title {
+  font-weight: bold;
+  color: #b8956a;
+  letter-spacing: 0.05em;
+}
+
+.instruction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.instruction-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  color: #d4d7dc;
+}
+
+.instruction-label {
+  color: #d4af37;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.instruction-text {
+  color: #87aed4;
 }
 </style>
