@@ -105,8 +105,8 @@ Each task is complete when:
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
 | 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | ✅ Complete | Task 03 |
-| 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | � In Progress | Task 10 |
-| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | 📄 Created | All previous |
+| 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | ✅ Complete | Task 10 |
+| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | 🚀 In Progress | All previous |
 
 **Week 4 Total**: ~8 hours
 
