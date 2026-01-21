@@ -13,7 +13,8 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "lint": "eslint . --fix",
-    "lint:check": "eslint ."
+    "lint:check": "eslint .",
+    "deploy:copy": "node scripts/deploy-copy.js"
   },
   "dependencies": {
     "pinia": "^3.0.4",
