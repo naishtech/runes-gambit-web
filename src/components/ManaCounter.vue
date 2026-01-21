@@ -9,6 +9,22 @@
       >
         Take from Pool
       </button>
+      <button
+        :disabled="!canSpendMana"
+        class="mana-button return-button"
+        data-test="return-mana-button"
+        @click="returnMana"
+      >
+        Return 1 to Pool
+      </button>
+      <button
+        :disabled="!canSpendMana"
+        class="mana-button give-button"
+        data-test="give-mana-button"
+        @click="giveManaToOpponent"
+      >
+        Give 1 to Opponent
+      </button>
     </div>
     <div 
       :key="availableMana"
@@ -42,9 +58,11 @@ const props = defineProps({
 const store = useGameStore()
 const previousMana = ref(0)
 const manaPulsing = ref(false)
+const opponentId = computed(() => (props.playerId === 'player1' ? 'player2' : 'player1'))
 
 const availableMana = computed(() => store.players[props.playerId].availableMana)
 const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
+const canSpendMana = computed(() => availableMana.value > 0)
 
 const manaDisplayClass = computed(() => {
   return manaPulsing.value ? 'mana-pulse' : ''
@@ -62,6 +80,14 @@ watch(availableMana, (newVal, oldVal) => {
 
 const takeMana = () => {
   store.transferManaToPlayer(props.playerId, 1)
+}
+
+const returnMana = () => {
+  store.returnManaToPool(props.playerId, 1)
+}
+
+const giveManaToOpponent = () => {
+  store.giveManaToOpponent(props.playerId, 1)
 }
 </script>
 
@@ -81,7 +107,9 @@ const takeMana = () => {
 .mana-controls {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 0.4rem;
   margin-bottom: 0.5rem;
 }
 
@@ -102,6 +130,28 @@ const takeMana = () => {
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+}
+
+.return-button {
+  border-color: #c49a3a;
+  color: #c49a3a;
+}
+
+.return-button:hover:not(:disabled) {
+  background: #c49a3a;
+  color: #1a1410;
+  box-shadow: 0 2px 8px rgba(196, 154, 58, 0.4);
+}
+
+.give-button {
+  border-color: #6aaa6a;
+  color: #6aaa6a;
+}
+
+.give-button:hover:not(:disabled) {
+  background: #6aaa6a;
+  color: #0f0c08;
+  box-shadow: 0 2px 8px rgba(106, 170, 106, 0.4);
 }
 
 .mana-button:active:not(:disabled) {
