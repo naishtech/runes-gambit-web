@@ -50,15 +50,15 @@ onMounted(() => {
     <div class="game-area" data-test="game-area">
       <!-- Left Panel: Player 1 -->
       <div class="player-panel player-panel-1" data-test="player-panel-1">
-        <PlayerNameBox player-id="player1" data-test="player1-name-box" />
+        <PlayerNameBox player-id="player1" color="red" data-test="player1-name-box" />
         <div data-test="player1-dice">
           <PlayerDice player-id="player1" />
         </div>
         <div data-test="player1-life">
-          <LifeCounter player-id="player1" data-test="player1-life-counter" />
+          <LifeCounter player-id="player1" color="red" data-test="player1-life-counter" />
         </div>
         <div data-test="player1-mana">
-          <ManaCounter player-id="player1" data-test="player1-mana-counter" />
+          <ManaCounter player-id="player1" color="red" data-test="player1-mana-counter" />
         </div>
       </div>
 
@@ -77,15 +77,15 @@ onMounted(() => {
 
       <!-- Right Panel: Player 2 -->
       <div class="player-panel player-panel-2" data-test="player-panel-2">
-        <PlayerNameBox player-id="player2" data-test="player2-name-box" />
+        <PlayerNameBox player-id="player2" color="blue" data-test="player2-name-box" />
         <div data-test="player2-dice">
           <PlayerDice player-id="player2" />
         </div>
         <div data-test="player2-life">
-          <LifeCounter player-id="player2" data-test="player2-life-counter" />
+          <LifeCounter player-id="player2" color="blue" data-test="player2-life-counter" />
         </div>
         <div data-test="player2-mana">
-          <ManaCounter player-id="player2" data-test="player2-mana-counter" />
+          <ManaCounter player-id="player2" color="blue" data-test="player2-mana-counter" />
         </div>
       </div>
     </div>

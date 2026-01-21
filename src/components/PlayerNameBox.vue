@@ -84,18 +84,23 @@ function handleInput(event) {
   color: #5a8fc7;
 }
 
-.border-red {
-  border-color: #d4534f;
+.color-red .name-input {
+  border-color: #d4534f !important;
+  color: #d4534f !important;
+}
+
+.color-blue .name-input {
+  border-color: #5a8fc7 !important;
+  color: #5a8fc7 !important;
+}
+
+.color-red .name-input::placeholder {
   color: #d4534f;
+  opacity: 0.6;
 }
 
-.border-blue {
-  border-color: #5a8fc7;
+.color-blue .name-input::placeholder {
   color: #5a8fc7;
-}
-
-.name-input::placeholder {
-  color: #8b6f47;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 </style>
