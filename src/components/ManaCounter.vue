@@ -7,7 +7,7 @@
         data-test="take-mana-button"
         @click="takeMana"
       >
-        Take from Pool
+        Take 1 From Pool
       </button>
       <button
         :disabled="!canSpendMana"

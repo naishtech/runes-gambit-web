@@ -86,7 +86,7 @@ const turnInstructions = [
   },
   {
     label: 'End',
-    text: 'Finalize effects, cleanup, and end the turn when ready.'
+    text: 'Retrieve your mana from your cards, and end the turn when ready'
   }
 ]
 
