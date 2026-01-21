@@ -1,6 +1,6 @@
 # Task 09: CoinFlip Component (TDD)
 
-**Status**: Not Started  
+**Status**: Complete  
 **Estimated Time**: 2 hours  
 **Dependencies**: Task 02  
 **Week**: 2
