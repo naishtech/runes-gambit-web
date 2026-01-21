@@ -62,34 +62,35 @@ defineExpose({ isRolling, currentValue, lastRoll, roll })
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #E8EAF6 0%, #C5CAE9 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border: 2px solid #5C6BC0;
+  border-radius: 14px;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 220, 160, 0.08), rgba(0, 0, 0, 0.2)),
+    linear-gradient(145deg, #1c130d 0%, #251911 60%, #1a120c 100%);
+  border: 2px solid #8b6f47;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
 .dice-face {
   width: 120px;
   height: 120px;
-  background: white;
-  border: 4px solid #5C6BC0;
-  border-radius: 16px;
+  background: linear-gradient(160deg, #332219 0%, #2a1d14 50%, #24170f 100%);
+  border: 4px solid #8b6f47;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6), 0 6px 14px rgba(0, 0, 0, 0.5);
 }
 
 .dice-face:hover:not(.rolling) {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 16px rgba(92, 107, 192, 0.4);
-  background: #F5F5F5;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6), 0 10px 18px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(160deg, #3a281d 0%, #2f2017 50%, #281910 100%);
 }
 
 .dice-face:active:not(.rolling) {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-1px) scale(1.01);
 }
 
 .dice-face.rolling {
@@ -117,22 +118,24 @@ defineExpose({ isRolling, currentValue, lastRoll, roll })
 
 .dice-value {
   font-size: 3rem;
-  font-weight: bold;
-  color: #5C6BC0;
+  font-weight: 800;
+  color: #d4af37;
   user-select: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
 }
 
 .dice-label {
   font-size: 1rem;
-  font-weight: bold;
-  color: #5C6BC0;
+  font-weight: 700;
+  color: #d4af37;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .last-roll {
   font-size: 0.875rem;
-  color: #5C6BC0;
-  opacity: 0.8;
+  color: #d4af37;
+  opacity: 0.85;
 }
 </style>
