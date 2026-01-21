@@ -95,7 +95,7 @@ Each task is complete when:
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
 | 13 | [ActionLog Component (TDD)](task-13-action-log.md) | 2h | ✅ Complete | Task 03 |
-| 14 | [Integration Tests](task-14-integration-tests.md) | 3h | 📄 Created | Tasks 01-13 |
+| 14 | [Integration Tests](task-14-integration-tests.md) | 3h | ✅ Complete | All previous |
 | 15 | [Main App Integration](task-15-main-app.md) | 2h | 📄 Created | Tasks 01-13 |
 
 **Week 3 Total**: ~7 hours
