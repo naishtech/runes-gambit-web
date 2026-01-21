@@ -115,6 +115,7 @@ onMounted(() => {
   gap: 1rem;
   padding: 1rem;
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+  box-sizing: border-box;
 }
 
 .app-header {
