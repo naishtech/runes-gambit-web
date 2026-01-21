@@ -1,6 +1,6 @@
 # Task 08: Mana Store Actions (TDD)
 
-**Status**: Not Started  
+**Status**: Complete  
 **Estimated Time**: 2 hours  
 **Dependencies**: Task 03, Task 07  
 **Week**: 2

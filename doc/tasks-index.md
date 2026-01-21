@@ -82,7 +82,7 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 08 | [Mana Store Actions (TDD)](task-08-mana-store-actions.md) | 2h | 📄 Created | Task 03, 07 |
+| 08 | [Mana Store Actions (TDD)](task-08-mana-store-actions.md) | 2h | ✅ Complete | Task 03, 07 |
 | 09 | [CoinFlip Component (TDD)](task-09-coin-flip.md) | 2h | 📄 Created | Task 02 |
 | 10 | [Dice Component (TDD)](task-10-dice-component.md) | 3h | ⬜ Not Started | Task 02 |
 | 11 | [Turn Management Store (TDD)](task-11-turn-store.md) | 2.5h | ⬜ Not Started | Task 08 |
