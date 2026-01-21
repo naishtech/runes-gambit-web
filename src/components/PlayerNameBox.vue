@@ -1,8 +1,5 @@
 <template>
   <div class="player-name-box" :class="`color-${color}`">
-    <label class="player-label">
-      {{ color === 'red' ? 'Player 1' : 'Player 2' }}
-    </label>
     <input
       :data-test="`${playerId}-name`"
       :value="store.players[playerId].name"

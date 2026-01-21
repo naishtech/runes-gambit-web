@@ -7,7 +7,6 @@ import PlayerNameBox from '@/components/PlayerNameBox.vue'
 import LifeCounter from '@/components/LifeCounter.vue'
 import ManaCounter from '@/components/ManaCounter.vue'
 import SharedManaPool from '@/components/SharedManaPool.vue'
-import CoinFlip from '@/components/CoinFlip.vue'
 import PlayerDice from '@/components/PlayerDice.vue'
 import TurnManager from '@/components/TurnManager.vue'
 import ActionLog from '@/components/ActionLog.vue'
@@ -51,7 +50,6 @@ onMounted(() => {
     <div class="game-area" data-test="game-area">
       <!-- Left Panel: Player 1 -->
       <div class="player-panel player-panel-1" data-test="player-panel-1">
-        <div class="panel-header">Player 1</div>
         <PlayerNameBox player-id="player1" data-test="player1-name-box" />
         <div data-test="player1-dice">
           <PlayerDice player-id="player1" />
@@ -71,22 +69,15 @@ onMounted(() => {
         </div>
 
         <div class="center-section tools-section" data-test="tools-section">
-          <div class="tools-grid">
-            <div class="tool-item shared-pool-item" data-test="shared-pool-item">
-              <h3>Shared Mana Pool</h3>
-              <SharedManaPool data-test="shared-mana-pool" />
-            </div>
-            <div class="tool-item coin-flip-item" data-test="coin-flip-item">
-              <h3>Coin Flip</h3>
-              <CoinFlip data-test="coin-flip" />
-            </div>
+          <div class="tool-item shared-pool-item" data-test="shared-pool-item">
+            <h3>Shared Mana Pool</h3>
+            <SharedManaPool data-test="shared-mana-pool" />
           </div>
         </div>
       </div>
 
       <!-- Right Panel: Player 2 -->
       <div class="player-panel player-panel-2" data-test="player-panel-2">
-        <div class="panel-header">Player 2</div>
         <PlayerNameBox player-id="player2" data-test="player2-name-box" />
         <div data-test="player2-dice">
           <PlayerDice player-id="player2" />
@@ -213,12 +204,6 @@ onMounted(() => {
   box-sizing: border-box;
   box-shadow: inset 0 0 30px rgba(139, 111, 71, 0.1),
               0 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-.tools-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
 }
 
 .tool-item {

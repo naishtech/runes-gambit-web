@@ -63,8 +63,11 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useGameStore } from '@/stores/gameStore'
+import { clearGameState } from '@/utils/storage'
 
+const router = useRouter()
 const store = useGameStore()
 
 const currentPlayerName = computed(() => {
@@ -86,6 +89,8 @@ const endTurn = () => {
 const resetGame = () => {
   if (confirm('Are you sure you want to start a new game?')) {
     store.resetGame()
+    clearGameState()
+    router.push('/')
   }
 }
 </script>

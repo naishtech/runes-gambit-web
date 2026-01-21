@@ -65,7 +65,25 @@ const startGame = async () => {
   padding: 1.5rem;
 }
 
-.title { color: #d8b4fe; }
+.title {
+  color: #d8b4fe;
+  text-align: center;
+}
+
+.coin-section {
+  text-align: center;
+}
+
+.coin-section h3 {
+  text-align: center;
+}
+
+.start-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .start-button {
   padding: 0.75rem 1.5rem;
@@ -76,5 +94,8 @@ const startGame = async () => {
   font-weight: bold;
 }
 
-.winner-note { color: #a78bfa; margin-top: 0.5rem; }
+.winner-note {
+  color: #a78bfa;
+  text-align: center;
+}
 </style>
