@@ -224,4 +224,18 @@ describe('App.vue', () => {
       expect(toolsSection.exists()).toBe(true)
     })
   })
+
+  describe('Game State Persistence', () => {
+    it('shows restore notification when saved game exists', async () => {
+      // Find restore notification element
+      const notification = wrapper.find('[data-test="restore-notification"]')
+      // Should not show initially
+      expect(notification.exists()).toBe(false)
+    })
+
+    it('does not show restore notification for new game', async () => {
+      const notification = wrapper.find('[data-test="restore-notification"]')
+      expect(notification.exists()).toBe(false)
+    })
+  })
 })

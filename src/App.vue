@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useGameStore } from '@/stores/gameStore'
+import { loadGameState } from '@/utils/storage'
 import PlayerNameBox from './components/PlayerNameBox.vue'
 import LifeCounter from './components/LifeCounter.vue'
 import ManaCounter from './components/ManaCounter.vue'
@@ -11,6 +12,7 @@ import TurnManager from './components/TurnManager.vue'
 import ActionLog from './components/ActionLog.vue'
 
 const store = useGameStore()
+const showRestoreMessage = ref(false)
 
 const player1Name = computed(() => store.players.player1.name)
 const player2Name = computed(() => store.players.player2.name)
@@ -18,6 +20,16 @@ const player2Name = computed(() => store.players.player2.name)
 const handleCoinFlipResult = (winner) => {
   // Coin flip result will be handled by TurnManager component
 }
+
+onMounted(() => {
+  const savedState = loadGameState()
+  if (savedState && savedState.gameStarted) {
+    showRestoreMessage.value = true
+    setTimeout(() => {
+      showRestoreMessage.value = false
+    }, 3000)
+  }
+})
 </script>
 
 <template>
@@ -26,6 +38,13 @@ const handleCoinFlipResult = (winner) => {
     <header class="app-header" data-test="app-header">
       <h1>Runes Gambit</h1>
     </header>
+
+    <!-- Restore Notification -->
+    <transition name="fade">
+      <div v-if="showRestoreMessage" class="restore-notification" data-test="restore-notification">
+        🎮 Game Restored
+      </div>
+    </transition>
 
     <!-- Main game area -->
     <div class="game-area" data-test="game-area">
@@ -203,6 +222,30 @@ const handleCoinFlipResult = (winner) => {
   min-height: 150px;
   max-height: 250px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.restore-notification {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(74, 144, 226, 0.9);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  z-index: 1000;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 /* Responsive design for tablet/small desktop */
