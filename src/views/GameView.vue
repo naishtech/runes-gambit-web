@@ -53,6 +53,9 @@ onMounted(() => {
       <div class="player-panel player-panel-1" data-test="player-panel-1">
         <div class="panel-header">Player 1</div>
         <PlayerNameBox player-id="player1" data-test="player1-name-box" />
+        <div data-test="player1-dice">
+          <PlayerDice player-id="player1" />
+        </div>
         <div data-test="player1-life">
           <LifeCounter player-id="player1" data-test="player1-life-counter" />
         </div>
@@ -77,13 +80,6 @@ onMounted(() => {
               <h3>Coin Flip</h3>
               <CoinFlip data-test="coin-flip" />
             </div>
-            <div class="tool-item player-dice-item" data-test="player-dice-item">
-              <h3>Player Dice</h3>
-              <div class="player-dice-grid">
-                <PlayerDice player-id="player1" />
-                <PlayerDice player-id="player2" />
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -92,6 +88,9 @@ onMounted(() => {
       <div class="player-panel player-panel-2" data-test="player-panel-2">
         <div class="panel-header">Player 2</div>
         <PlayerNameBox player-id="player2" data-test="player2-name-box" />
+        <div data-test="player2-dice">
+          <PlayerDice player-id="player2" />
+        </div>
         <div data-test="player2-life">
           <LifeCounter player-id="player2" data-test="player2-life-counter" />
         </div>
@@ -208,12 +207,6 @@ onMounted(() => {
   font-size: 1rem;
 }
 
-.player-dice-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
 .action-log-section {
   background: rgba(255, 255, 255, 0.05);
   border-top: 2px solid rgba(255, 255, 255, 0.1);
@@ -256,10 +249,6 @@ onMounted(() => {
 
   .panel-header {
     font-size: 1rem;
-  }
-
-  .player-dice-grid {
-    grid-template-columns: 1fr;
   }
 }
 
