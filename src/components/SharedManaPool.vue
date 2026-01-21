@@ -32,9 +32,9 @@ const sharedManaPool = computed(() => store.sharedManaPool)
   gap: 0.75rem;
   padding: 1.5rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border: 2px solid #2196F3;
+  background: linear-gradient(135deg, rgba(30, 40, 50, 0.7) 0%, rgba(20, 30, 40, 0.9) 100%);
+  box-shadow: inset 0 0 30px rgba(90, 143, 199, 0.1), 0 4px 8px rgba(0, 0, 0, 0.5);
+  border: 2px solid #5a8fc7;
   min-width: 200px;
 }
 
@@ -43,7 +43,9 @@ const sharedManaPool = computed(() => store.sharedManaPool)
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #1976D2;
+  font-family: 'Cinzel', serif;
+  color: #87aed4;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .pool-display-container {
@@ -55,10 +57,10 @@ const sharedManaPool = computed(() => store.sharedManaPool)
 .pool-display {
   font-size: 3rem;
   font-weight: bold;
-  color: #2196F3;
+  color: #87aed4;
   min-width: 100px;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+  text-shadow: 0 0 10px rgba(90, 143, 199, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
   animation: poolUpdate 0.4s ease;
 }
 
@@ -68,7 +70,7 @@ const sharedManaPool = computed(() => store.sharedManaPool)
   }
   50% {
     transform: scale(1.15);
-    text-shadow: 0 0 20px rgba(33, 150, 243, 0.8);
+    text-shadow: 0 0 20px rgba(90, 143, 199, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8);
   }
   100% {
     transform: scale(1);
@@ -77,8 +79,8 @@ const sharedManaPool = computed(() => store.sharedManaPool)
 
 .pool-subtitle {
   font-size: 0.75rem;
-  color: #1976D2;
-  opacity: 0.7;
+  color: #b8bfc7;
+  opacity: 0.8;
   font-style: italic;
 }
 </style>

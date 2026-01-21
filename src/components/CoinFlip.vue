@@ -92,9 +92,9 @@ defineExpose({ isFlipping, result, reset })
   gap: 1.5rem;
   padding: 1.5rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  border: 2px solid #FFA726;
+  background: linear-gradient(135deg, rgba(50, 40, 20, 0.7) 0%, rgba(30, 22, 10, 0.9) 100%);
+  box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.1), 0 4px 8px rgba(0, 0, 0, 0.5);
+  border: 2px solid #c49a3a;
 }
 
 .flip-button {
@@ -103,20 +103,22 @@ defineExpose({ isFlipping, result, reset })
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  border: 3px solid #FFA726;
+  border: 3px solid #c49a3a;
   border-radius: 12px;
-  background: white;
+  background: rgba(20, 15, 10, 0.9);
   font-size: 1.25rem;
   font-weight: bold;
-  color: #F57C00;
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
   cursor: pointer;
   transition: all 0.3s;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .flip-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(255, 167, 38, 0.3);
-  background: #FFF8E1;
+  box-shadow: 0 6px 12px rgba(212, 175, 55, 0.4);
+  background: rgba(30, 22, 15, 0.95);
 }
 
 .flip-button:active:not(:disabled) {
@@ -149,9 +151,11 @@ defineExpose({ isFlipping, result, reset })
 .result-message {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #F57C00;
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
   text-align: center;
   animation: fadeInScale 0.5s ease;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 @keyframes fadeInScale {
@@ -167,21 +171,22 @@ defineExpose({ isFlipping, result, reset })
 
 .reset-button {
   padding: 0.75rem 1.5rem;
-  border: 2px solid #4CAF50;
+  border: 2px solid #6aaa6a;
   border-radius: 8px;
-  background: white;
+  background: rgba(20, 15, 10, 0.9);
   font-size: 1rem;
   font-weight: bold;
-  color: #4CAF50;
+  font-family: 'Cinzel', serif;
+  color: #6aaa6a;
   cursor: pointer;
   transition: all 0.3s;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .reset-button:hover {
-  background: #4CAF50;
-  color: white;
+  background: rgba(106, 170, 106, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 8px rgba(106, 170, 106, 0.3);
 }
 
 .reset-button:active {
