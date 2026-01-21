@@ -96,7 +96,7 @@ Each task is complete when:
 |---|------|------|--------|--------------|
 | 13 | [ActionLog Component (TDD)](task-13-action-log.md) | 2h | ✅ Complete | Task 03 |
 | 14 | [Integration Tests](task-14-integration-tests.md) | 3h | ✅ Complete | All previous |
-| 15 | [Main App Integration](task-15-main-app.md) | 2h | 📄 Created | Tasks 01-13 |
+| 15 | [Main App Integration](task-15-main-app.md) | 2h | ✅ Complete | Tasks 01-13 |
 
 **Week 3 Total**: ~7 hours
 
@@ -104,7 +104,7 @@ Each task is complete when:
 
 | # | Task | Time | Status | Dependencies |
 |---|------|------|--------|--------------|
-| 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | 📄 Created | Task 03 |
+| 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | � In Progress | Task 03 |
 | 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | 📄 Created | Task 10 |
 | 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | 📄 Created | All previous |
 
