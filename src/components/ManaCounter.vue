@@ -44,10 +44,7 @@ const availableMana = computed(() => store.players[props.playerId].availableMana
 const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
 
 const takeMana = () => {
-  if (!isPoolEmpty.value) {
-    store.adjustSharedManaPool(-1)
-    store.players[props.playerId].availableMana += 1
-  }
+  store.transferManaToPlayer(props.playerId, 1)
 }
 </script>
 
