@@ -241,6 +241,10 @@ export const useGameStore = defineStore('game', {
       })
     },
 
+    clearActionLog() {
+      this.actionLog = []
+    },
+
     resetGame() {
       // Preserve names
       const player1Name = this.players.player1.name
