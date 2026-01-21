@@ -356,6 +356,31 @@ git commit -m "chore: update dependencies"
 - Commented-out code
 - Debug console.logs
 
+### Git Usage Policy (CLI Only)
+
+To keep workflows consistent and scriptable across environments, always use the git CLI.
+
+- Use git commands in the terminal for all VCS actions
+- Do not use GitKraken or other GUI git tools for this project
+- Prefer small, focused commits following Conventional Commits
+
+Common commands:
+
+```powershell
+# Stage changes
+git add .
+
+# Commit with a conventional message
+git commit -m "feat: add new component"
+
+# Push to the main remote branch
+git push origin main
+
+# Create and push a feature branch
+git checkout -b feat/xyz
+git push -u origin feat/xyz
+```
+
 ---
 
 ## Terminal & Command Execution

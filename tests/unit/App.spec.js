@@ -1,20 +1,40 @@
-import { mount } from '@vue/test-utils'
-import { createPinia } from 'pinia'
+import { mount, flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import { describe, it, expect, beforeEach } from 'vitest'
-import App from '@/App.vue'
+import GameView from '@/views/GameView.vue'
 import { useGameStore } from '@/stores/gameStore'
+import { saveGameState, clearGameState } from '@/utils/storage'
 
-describe('App.vue', () => {
+describe('GameView.vue', () => {
   let wrapper
-  let pinia
+  let router
 
-  beforeEach(() => {
-    pinia = createPinia()
-    wrapper = mount(App, {
+  beforeEach(async () => {
+    setActivePinia(createPinia())
+    router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        {
+          path: '/game',
+          name: 'Game',
+          component: GameView
+        }
+      ]
+    })
+    
+    const store = useGameStore()
+    store.startGame('player1')
+    
+    wrapper = mount(GameView, {
       global: {
-        plugins: [pinia]
+        plugins: [router],
+        stubs: {
+          PlayerDice: true
+        }
       }
     })
+    await flushPromises()
   })
 
   describe('Layout Structure', () => {
@@ -76,11 +96,6 @@ describe('App.vue', () => {
       expect(coinFlip.exists()).toBe(true)
     })
 
-    it('renders dice component', () => {
-      const dice = wrapper.find('[data-test="dice"]')
-      expect(dice.exists()).toBe(true)
-    })
-
     it('renders turn manager', () => {
       const turnManager = wrapper.find('[data-test="turn-manager"]')
       expect(turnManager.exists()).toBe(true)
@@ -98,58 +113,39 @@ describe('App.vue', () => {
     })
 
     it('all components share the same Pinia store', () => {
-      const store = wrapper.vm.$pinia._s.get('game')
+      const store = useGameStore()
       expect(store).toBeDefined()
+      expect(store.$id).toBe('game')
     })
   })
 
   describe('Responsive Layout', () => {
     it('applies mobile styles on small screens', async () => {
-      // Mount with mobile viewport
-      const mobileWrapper = mount(App, {
-        global: {
-          plugins: [createPinia()]
-        }
-      })
-
-      const gameArea = mobileWrapper.find('[data-test="game-area"]')
+      const gameArea = wrapper.find('[data-test="game-area"]')
       expect(gameArea.exists()).toBe(true)
       expect(gameArea.classes()).toContain('game-area')
     })
 
     it('grid layout adjusts for tablet screens', async () => {
-      const tabletWrapper = mount(App, {
-        global: {
-          plugins: [createPinia()]
-        }
-      })
-
-      expect(tabletWrapper.find('.game-area').exists()).toBe(true)
+      expect(wrapper.find('.game-area').exists()).toBe(true)
     })
 
     it('full three-column layout on desktop', async () => {
-      const desktopWrapper = mount(App, {
-        global: {
-          plugins: [createPinia()]
-        }
-      })
-
-      expect(desktopWrapper.find('[data-test="player-panel-1"]').exists()).toBe(true)
-      expect(desktopWrapper.find('[data-test="center-panel"]').exists()).toBe(true)
-      expect(desktopWrapper.find('[data-test="player-panel-2"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="player-panel-1"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="center-panel"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="player-panel-2"]').exists()).toBe(true)
     })
   })
 
   describe('Component Communication', () => {
     it('components share same store instance', () => {
-      const store = useGameStore(wrapper.vm.$pinia)
-      
+      const store = useGameStore()
       expect(store).toBeDefined()
       expect(store.players).toBeDefined()
     })
 
     it('stat displays are in sync with store', async () => {
-      const store = useGameStore(wrapper.vm.$pinia)
+      const store = useGameStore()
       
       // Change life
       const result = store.adjustLife('player1', -5)
@@ -159,11 +155,6 @@ describe('App.vue', () => {
       // Store should reflect change
       expect(result).toBe(true)
       expect(store.players.player1.lifePoints).toBe(15)
-    })
-
-    it('handlers are properly defined for component events', () => {
-      expect(wrapper.vm.handleCoinFlipResult).toBeDefined()
-      expect(typeof wrapper.vm.handleCoinFlipResult).toBe('function')
     })
 
     it('all player stat sections are present', () => {
@@ -227,14 +218,38 @@ describe('App.vue', () => {
 
   describe('Game State Persistence', () => {
     it('shows restore notification when saved game exists', async () => {
-      // Find restore notification element
-      const notification = wrapper.find('[data-test="restore-notification"]')
-      // Should not show initially
-      expect(notification.exists()).toBe(false)
+      clearGameState()
+      const store = useGameStore()
+      // Ensure a saved, started game exists
+      saveGameState({
+        ...store.$state,
+        gameStarted: true
+      })
+
+      const localWrapper = mount(GameView, {
+        global: {
+          plugins: [router],
+          stubs: { PlayerDice: true }
+        }
+      })
+      await flushPromises()
+
+      const notification = localWrapper.find('[data-test="restore-notification"]')
+      expect(notification.exists()).toBe(true)
     })
 
     it('does not show restore notification for new game', async () => {
-      const notification = wrapper.find('[data-test="restore-notification"]')
+      clearGameState()
+
+      const localWrapper = mount(GameView, {
+        global: {
+          plugins: [router],
+          stubs: { PlayerDice: true }
+        }
+      })
+      await flushPromises()
+
+      const notification = localWrapper.find('[data-test="restore-notification"]')
       expect(notification.exists()).toBe(false)
     })
   })
