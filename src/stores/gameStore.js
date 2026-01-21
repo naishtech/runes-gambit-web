@@ -1,41 +1,54 @@
 import { defineStore } from 'pinia'
+import { saveGameState, loadGameState, clearGameState } from '@/utils/storage'
 
 export const useGameStore = defineStore('game', {
-  state: () => ({
-    // Game metadata
-    gameStarted: false,
+  state: () => {
+    // Load saved state if available
+    const savedState = loadGameState()
     
-    // Players
-    players: {
-      player1: {
-        name: 'Red Player',
-        color: 'red',
-        lifePoints: 20,
-        availableMana: 0
+    const defaultState = {
+      // Game metadata
+      gameStarted: false,
+      
+      // Players
+      players: {
+        player1: {
+          name: 'Red Player',
+          color: 'red',
+          lifePoints: 20,
+          availableMana: 0
+        },
+        player2: {
+          name: 'Blue Player',
+          color: 'blue',
+          lifePoints: 20,
+          availableMana: 0
+        }
       },
-      player2: {
-        name: 'Blue Player',
-        color: 'blue',
-        lifePoints: 20,
-        availableMana: 0
-      }
-    },
-    
-    // Shared resources
-    sharedManaPool: 20,
-    
-    // Turn management
-    firstPlayer: null,
-    currentPlayer: null,
-    currentPhase: 'setup',
-    turnNumber: 0,
-    
-    // Dice
-    lastDiceRoll: null,
-    
-    // Logging
-    actionLog: []
-  }),
+      
+      // Shared resources
+      sharedManaPool: 20,
+      
+      // Turn management
+      firstPlayer: null,
+      currentPlayer: null,
+      currentPhase: 'setup',
+      turnNumber: 0,
+      
+      // Dice
+      lastDiceRoll: null,
+      
+      // Logging
+      actionLog: []
+    }
+
+    // Merge saved state with defaults
+    if (savedState) {
+      return { ...defaultState, ...savedState }
+    }
+
+    return defaultState
+  },
 
   getters: {
     currentPlayerState: (state) => {
@@ -67,9 +80,31 @@ export const useGameStore = defineStore('game', {
   },
 
   actions: {
+    // Auto-save helper function
+    autoSave() {
+      const state = {
+        players: this.players,
+        sharedManaPool: this.sharedManaPool,
+        gameStarted: this.gameStarted,
+        currentPlayer: this.currentPlayer,
+        currentPhase: this.currentPhase,
+        turnNumber: this.turnNumber,
+        actionLog: this.actionLog
+      }
+      saveGameState(state)
+    },
+
     setPlayerName(playerId, name) {
       this.players[playerId].name = name
       this.addLogEntry('info', `${name} joined as ${playerId}`, playerId)
+      this.autoSave()
+    },
+
+    updatePlayerName(playerId, name) {
+      if (this.players[playerId]) {
+        this.players[playerId].name = name
+        this.autoSave()
+      }
     },
 
     adjustLife(playerId, amount) {
@@ -79,6 +114,7 @@ export const useGameStore = defineStore('game', {
       }
       
       this.players[playerId].lifePoints += amount
+      this.autoSave()
       return true
     },
 
@@ -88,6 +124,7 @@ export const useGameStore = defineStore('game', {
       if (this.sharedManaPool < 0) {
         this.sharedManaPool = 0
       }
+      this.autoSave()
       return true
     },
 
@@ -119,6 +156,7 @@ export const useGameStore = defineStore('game', {
         playerId
       )
 
+      this.autoSave()
       return true
     },
 
@@ -150,6 +188,7 @@ export const useGameStore = defineStore('game', {
         playerId
       )
 
+      this.autoSave()
       return true
     },
 
@@ -175,6 +214,8 @@ export const useGameStore = defineStore('game', {
         'Draw Phase: Collect 1 mana and draw 1 card',
         startingPlayer
       )
+
+      this.autoSave()
     },
 
     nextPhase() {
@@ -196,6 +237,8 @@ export const useGameStore = defineStore('game', {
           phaseInstructions[this.currentPhase],
           this.currentPlayer
         )
+
+        this.autoSave()
       }
     },
 
@@ -229,6 +272,8 @@ export const useGameStore = defineStore('game', {
         'Draw Phase: Collect 1 mana and draw 1 card',
         this.currentPlayer
       )
+
+      this.autoSave()
     },
 
     addLogEntry(type, message, playerId = null) {
@@ -243,6 +288,7 @@ export const useGameStore = defineStore('game', {
 
     clearActionLog() {
       this.actionLog = []
+      this.autoSave()
     },
 
     resetGame() {
@@ -274,6 +320,9 @@ export const useGameStore = defineStore('game', {
         lifePoints: 20,
         availableMana: 0
       }
+
+      clearGameState()
+      this.autoSave()
     }
   }
 })
