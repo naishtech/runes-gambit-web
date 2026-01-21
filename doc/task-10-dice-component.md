@@ -1,6 +1,6 @@
 # Task 10: Dice Component (TDD)
 
-**Status**: Not Started  
+**Status**: Complete  
 **Estimated Time**: 3 hours  
 **Dependencies**: Task 02  
 **Week**: 2
