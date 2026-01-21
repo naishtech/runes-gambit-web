@@ -1,6 +1,6 @@
 # Task 17: Animations & Polish
 
-**Status**: Not Started  
+**Status**: 🚀 In Progress  
 **Estimated Time**: 3 hours  
 **Dependencies**: Tasks 01-16  
 **Week**: 4
