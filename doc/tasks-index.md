@@ -106,13 +106,8 @@ Each task is complete when:
 |---|------|------|--------|--------------|
 | 16 | [LocalStorage & Persistence (TDD)](task-16-local-storage.md) | 2.5h | ✅ Complete | Task 03 |
 | 17 | [Animations & Polish](task-17-polish-animations.md) | 3h | ✅ Complete | Task 10 |
-| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | 🚀 In Progress | All previous |
-
-**Week 4 Total**: ~8 hours
-
-### Week 5: CI/CD & Deployment (2 tasks)
-
-| # | Task | Time | Status | Dependencies |
+| 18 | [Edge Cases & Error Handling](task-18-edge-cases.md) | 2.5h | ✅ Complete | All previous |
+| 19 | [CI/CD Setup](task-19-ci-cd-setup.md) | 2h | 🚀 In Progress | Tasks 01-18 |
 |---|------|------|--------|--------------|
 | 19 | [CI/CD Setup (GitHub Actions)](task-19-ci-cd-setup.md) | 2h | 📄 Created | Task 01 |
 | 20 | [Deployment & Documentation](task-20-deployment.md) | 3h | 📄 Created | All previous |
