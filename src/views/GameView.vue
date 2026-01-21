@@ -112,8 +112,8 @@ onMounted(() => {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
   box-sizing: border-box;
 }
@@ -121,7 +121,7 @@ onMounted(() => {
 .app-header {
   text-align: center;
   color: #fff;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 .app-header h1 {
@@ -146,18 +146,22 @@ onMounted(() => {
 .game-area {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  gap: 2rem;
+  gap: 0.5rem;
   flex: 1;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .player-panel {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .player-panel-1 {
@@ -178,20 +182,23 @@ onMounted(() => {
 .center-panel {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .center-section {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
-  padding: 1.5rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .tools-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .tool-item {
