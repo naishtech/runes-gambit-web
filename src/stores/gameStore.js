@@ -48,7 +48,22 @@ export const useGameStore = defineStore('game', {
       return null
     },
 
-    isGameActive: (state) => state.gameStarted
+    isGameActive: (state) => state.gameStarted,
+
+    currentPhaseInstructions: (state) => {
+      const instructions = {
+        setup: 'Setup Phase: Choose which player starts',
+        draw: 'Draw Phase: Collect 1 mana and draw 1 card',
+        play: 'Play Phase: Play cards and activate abilities',
+        attack: 'Attack Phase: Declare attacks and resolve combat',
+        end: 'End Phase: Ready to end your turn'
+      }
+      return instructions[state.currentPhase] || ''
+    },
+
+    canAdvancePhase: (state) => {
+      return state.gameStarted && state.currentPhase !== 'end'
+    }
   },
 
   actions: {
