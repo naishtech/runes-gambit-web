@@ -1,9 +1,5 @@
 <template>
   <div class="player-dice" :class="`player-${playerColor}`">
-    <div class="dice-header">
-      <span class="player-name">{{ playerName }}'s Dice</span>
-      <span class="phase-hint" v-if="!canRoll">Start the game to roll</span>
-    </div>
     <div class="dice-wrapper" :class="{ disabled: !canRoll }">
       <Dice :color="playerColor" @roll="onRoll" />
     </div>
@@ -43,22 +39,6 @@ const onRoll = (value) => {
   border-radius: 8px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.2);
-}
-
-.dice-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-}
-
-.player-name {
-  color: #fff;
-}
-
-.phase-hint {
-  font-size: 0.8rem;
-  opacity: 0.8;
 }
 
 .dice-wrapper {
