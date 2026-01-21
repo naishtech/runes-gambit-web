@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import PlayerNameBox from '@/components/PlayerNameBox.vue'
 import ErrorNotification from '@/components/ErrorNotification.vue'

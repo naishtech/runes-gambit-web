@@ -164,8 +164,6 @@ describe('Dice Component', () => {
     it('updates display value after click', async () => {
       const wrapper = mount(Dice)
 
-      const initialValue = wrapper.vm.currentValue
-
       await wrapper.find('[data-test="dice-face"]').trigger('click')
       await new Promise(resolve => setTimeout(resolve, 900))
 

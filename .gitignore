@@ -12,10 +12,17 @@ dist
 dist-ssr
 *.local
 coverage
+.nyc_output/
+*.lcov
+
+# Build artifacts
+.lighthouseci/
+lighthouseci-*.json
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -23,6 +30,9 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+*~
 
 # Environment files
 .env

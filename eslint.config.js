@@ -45,12 +45,28 @@ export default [
         // Test environment globals
         global: 'readonly',
         localStorage: 'readonly',
-        sessionStorage: 'readonly'
+        sessionStorage: 'readonly',
+        
+        // Timer/DOM globals
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        confirm: 'readonly',
+        alert: 'readonly',
+        Storage: 'readonly',
+        DOMException: 'readonly'
       }
     },
     rules: {
       // Disable multi-word component names rule
-      'vue/multi-word-component-names': 'off'
+      'vue/multi-word-component-names': 'off',
+      'vue/attributes-order': 'off',
+      'vue/require-default-prop': 'off',
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'warn',
+      'prefer-const': 'error',
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_', varsIgnorePattern: '^_' }]
     }
   },
   

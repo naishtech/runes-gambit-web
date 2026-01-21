@@ -57,7 +57,6 @@ describe('Integration Tests - Complete Game Flow', () => {
     })
 
     it('updates all components reactively on game start', async () => {
-      const store = useGameStore()
       const manaCounter = mount(ManaCounter, {
         props: { playerId: 'player1', color: 'red' }
       })

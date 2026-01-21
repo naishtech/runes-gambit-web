@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { useGameStore } from '@/stores/gameStore'
+import { ref, onMounted } from 'vue'
 import { loadGameState } from '@/utils/storage'
 import PlayerNameBox from './components/PlayerNameBox.vue'
 import LifeCounter from './components/LifeCounter.vue'
@@ -11,13 +10,9 @@ import Dice from './components/Dice.vue'
 import TurnManager from './components/TurnManager.vue'
 import ActionLog from './components/ActionLog.vue'
 
-const store = useGameStore()
 const showRestoreMessage = ref(false)
 
-const player1Name = computed(() => store.players.player1.name)
-const player2Name = computed(() => store.players.player2.name)
-
-const handleCoinFlipResult = (winner) => {
+const handleCoinFlipResult = () => {
   // Coin flip result will be handled by TurnManager component
 }
 

@@ -52,6 +52,7 @@ export function loadGameState() {
 
     // Remove timestamp before returning
     const { _timestamp, ...stateWithoutTimestamp } = parsed
+    // _timestamp is intentionally destructured to extract and remove it from state
 
     return stateWithoutTimestamp
   } catch (error) {
