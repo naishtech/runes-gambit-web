@@ -225,15 +225,7 @@ onMounted(() => {
 }
 
 .action-log-section {
-  background: linear-gradient(135deg, rgba(20, 15, 10, 0.95) 0%, rgba(10, 8, 5, 0.98) 100%);
-  border: 3px solid;
-  border-image: linear-gradient(135deg, #8b6f47 0%, #4a3c2a 50%, #8b6f47 100%) 1;
-  padding: 1rem;
-  border-radius: 8px;
-  max-height: 15rem;
-  overflow-y: auto;
-  box-shadow: inset 0 0 30px rgba(139, 111, 71, 0.1),
-              0 8px 20px rgba(0, 0, 0, 0.6);
+  max-height: 16rem;
 }
 
 /* Responsive: Tablet */

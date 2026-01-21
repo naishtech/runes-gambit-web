@@ -81,18 +81,16 @@ defineExpose({ formatTime, getPlayerName, getPlayerColor })
   background: linear-gradient(135deg, rgba(20, 15, 10, 0.95) 0%, rgba(10, 8, 5, 0.98) 100%);
   box-shadow: inset 0 0 30px rgba(139, 111, 71, 0.1), 0 4px 12px rgba(0, 0, 0, 0.6);
   border: 2px solid #8b6f47;
-  overflow: hidden;
+  overflow-y: auto;
   max-height: 16rem;
 }
 
 .action-log {
   flex: 1;
-  overflow-y: auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-height: 16rem;
 }
 
 .empty-message {
