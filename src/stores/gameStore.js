@@ -131,6 +131,50 @@ export const useGameStore = defineStore('game', {
       return true
     },
 
+      giveManaToOpponent(fromPlayerId, amount) {
+        // Validate player ID
+        if (!validatePlayerId(fromPlayerId, this.players)) {
+          console.warn(`Invalid player ID: ${fromPlayerId}`)
+          return false
+        }
+
+        // Validate amount (allow 0, but don't transfer)
+        if (typeof amount !== 'number' || isNaN(amount) || amount < 0) {
+          console.warn(`Invalid mana amount: ${amount}`)
+          return false
+        }
+
+        if (amount === 0) {
+          return false
+        }
+
+        // Determine opponent
+        const opponentId = fromPlayerId === 'player1' ? 'player2' : 'player1'
+
+        // Ensure sender has enough mana
+        if (this.players[fromPlayerId].availableMana < amount) {
+          this.addLogEntry(
+            'error',
+            `${this.players[fromPlayerId].name} doesn't have enough mana to give`,
+            fromPlayerId
+          )
+          return false
+        }
+
+        // Transfer mana between players (no pool change)
+        this.players[fromPlayerId].availableMana -= amount
+        this.players[opponentId].availableMana += amount
+
+        this.addLogEntry(
+          'info',
+          `${this.players[fromPlayerId].name} gave ${amount} mana to ${this.players[opponentId].name}`,
+          fromPlayerId
+        )
+
+        this.autoSave()
+        return true
+      },
+
     adjustLife(playerId, amount) {
       if (!validatePlayerId(playerId, this.players)) {
         console.warn(`Invalid player ID: ${playerId}`)

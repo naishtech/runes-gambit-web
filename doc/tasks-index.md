@@ -111,6 +111,7 @@ Each task is complete when:
 |---|------|------|--------|--------------|
 | 19 | [CI/CD Setup (GitHub Actions)](task-19-ci-cd-setup.md) | 2h | 📄 Created | Task 01 |
 | 20 | [Deployment & Documentation](task-20-deployment.md) | 3h | 📄 Created | All previous |
+| 21 | [Game Rule Updates & Start Flow](task-21-game-rule-updates.md) | 4h | 📄 Created | Tasks 01-20 |
 
 **Week 5 Total**: ~5 hours
 

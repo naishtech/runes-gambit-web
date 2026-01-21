@@ -2,14 +2,6 @@
   <div class="shared-mana-pool">
     <div class="pool-label">Shared Mana Pool</div>
     <div class="pool-display-container">
-      <button 
-        :disabled="isPoolEmpty"
-        class="pool-button decrement" 
-        data-test="decrement-pool"
-        @click="decrementPool"
-      >
-        -
-      </button>
       <div 
         :key="sharedManaPool"
         class="pool-display" 
@@ -17,15 +9,8 @@
       >
         {{ sharedManaPool }}
       </div>
-      <button 
-        class="pool-button increment" 
-        data-test="increment-pool"
-        @click="incrementPool"
-      >
-        +
-      </button>
     </div>
-    <div class="pool-subtitle">Tokens available to both players</div>
+    <div class="pool-subtitle" data-test="pool-readonly-note">Tokens available to both players. Adjustments happen via turn start or card effects.</div>
   </div>
 </template>
 
@@ -36,17 +21,7 @@ import { useGameStore } from '../stores/gameStore'
 const store = useGameStore()
 
 const sharedManaPool = computed(() => store.sharedManaPool)
-const isPoolEmpty = computed(() => store.sharedManaPool <= 0)
-
-const incrementPool = () => {
-  store.adjustSharedManaPool(1)
-}
-
-const decrementPool = () => {
-  if (!isPoolEmpty.value) {
-    store.adjustSharedManaPool(-1)
-  }
-}
+// Read-only: direct UI adjustments are disabled per game rules
 </script>
 
 <style scoped>
@@ -98,49 +73,6 @@ const decrementPool = () => {
   100% {
     transform: scale(1);
   }
-}
-
-.pool-button {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 3px solid #2196F3;
-  background: white;
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: #2196F3;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.pool-button:hover {
-  transform: scale(1.1);
-  background: #E3F2FD;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
-}
-
-.pool-button:active {
-  transform: scale(0.95);
-}
-
-.pool-button:hover:not(:disabled) {
-  transform: scale(1.1);
-  background: #E3F2FD;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
-}
-
-.pool-button:active:not(:disabled) {
-  transform: scale(0.95);
-}
-
-.pool-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: scale(1);
 }
 
 .pool-subtitle {

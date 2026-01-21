@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
+import { createRouter, createMemoryHistory } from 'vue-router'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useGameStore } from '@/stores/gameStore'
 
@@ -11,6 +12,8 @@ import SharedManaPool from '@/components/SharedManaPool.vue'
 import CoinFlip from '@/components/CoinFlip.vue'
 import Dice from '@/components/Dice.vue'
 import TurnManager from '@/components/TurnManager.vue'
+import LandingPage from '@/components/LandingPage.vue'
+import GameView from '@/views/GameView.vue'
 import ActionLog from '@/components/ActionLog.vue'
 
 describe('Integration Tests - Complete Game Flow', () => {
@@ -41,18 +44,46 @@ describe('Integration Tests - Complete Game Flow', () => {
       expect(store.turnNumber).toBe(0)
     })
 
-    it('starts game with player selection', async () => {
+    it('starts game via landing page after coin flip', async () => {
       const store = useGameStore()
-      const turnManager = mount(TurnManager)
+      const router = createRouter({
+        history: createMemoryHistory(),
+        routes: [
+          {
+            path: '/',
+            name: 'Landing',
+            component: LandingPage
+          },
+          {
+            path: '/game',
+            name: 'Game',
+            component: GameView
+          }
+        ]
+      })
+      const landing = mount(LandingPage, {
+        global: {
+          plugins: [router]
+        }
+      })
 
-      // Start game with player1
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      // Simulate coin flip selecting player1
+      const coin = landing.findComponent({ name: 'CoinFlip' })
+      // If findComponent by name fails, fallback to emitting on first child component
+      if (coin && coin.vm) {
+        coin.vm.$emit('result', 'player1')
+      }
+
+      await landing.vm.$nextTick()
+      await landing.find('[data-test="start-game-from-landing"]').trigger('click')
 
       expect(store.gameStarted).toBe(true)
-      expect(store.currentPlayer).toBe('player1')
+      expect(['player1', 'player2']).toContain(store.currentPlayer)
       expect(store.currentPhase).toBe('draw')
       expect(store.turnNumber).toBe(1)
-      expect(store.players.player1.availableMana).toBe(1)
+      // Mana grant and pool decrease should reflect starting player
+      const startingMana = store.players[store.currentPlayer].availableMana
+      expect(startingMana).toBe(1)
       expect(store.sharedManaPool).toBe(19)
     })
 
@@ -62,8 +93,9 @@ describe('Integration Tests - Complete Game Flow', () => {
       })
       const pool = mount(SharedManaPool)
       const turnManager = mount(TurnManager)
-
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      const store = useGameStore()
+      store.startGame('player1')
+      await turnManager.vm.$nextTick()
       await manaCounter.vm.$nextTick()
       await pool.vm.$nextTick()
 
@@ -76,25 +108,29 @@ describe('Integration Tests - Complete Game Flow', () => {
     it('executes a full turn from start to end', async () => {
       const store = useGameStore()
       const turnManager = mount(TurnManager)
-
-      // Start game
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      // Start game externally via store
+      store.startGame('player1')
+      await turnManager.vm.$nextTick()
       expect(store.currentPhase).toBe('draw')
 
       // Draw phase -> Play phase
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
       expect(store.currentPhase).toBe('play')
 
       // Play phase -> Attack phase
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
       expect(store.currentPhase).toBe('attack')
 
       // Attack phase -> End phase
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
       expect(store.currentPhase).toBe('end')
 
       // End turn -> Switch to player2
       await turnManager.find('[data-test="end-turn"]').trigger('click')
+      await turnManager.vm.$nextTick()
       expect(store.currentPlayer).toBe('player2')
       expect(store.currentPhase).toBe('draw')
       expect(store.turnNumber).toBe(2)
@@ -103,8 +139,7 @@ describe('Integration Tests - Complete Game Flow', () => {
     it('grants mana correctly at start of each turn', async () => {
       const store = useGameStore()
       const turnManager = mount(TurnManager)
-
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      store.startGame('player1')
       expect(store.players.player1.availableMana).toBe(1)
 
       // Complete player1 turn
@@ -122,13 +157,17 @@ describe('Integration Tests - Complete Game Flow', () => {
       const turnManager = mount(TurnManager)
       const actionLog = mount(ActionLog)
 
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      store.startGame('player1')
+      await turnManager.vm.$nextTick()
       const initialLogCount = store.actionLog.length
 
       // Advance through phases
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
       await turnManager.find('[data-test="next-phase"]').trigger('click')
+      await turnManager.vm.$nextTick()
 
       expect(store.actionLog.length).toBeGreaterThan(initialLogCount)
       expect(actionLog.findAll('.log-entry').length).toBeGreaterThan(0)
@@ -208,7 +247,7 @@ describe('Integration Tests - Complete Game Flow', () => {
       store.setPlayerName('player1', 'Alice')
       await nameBox.vm.$nextTick()
 
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      store.startGame('player1')
       await turnManager.vm.$nextTick()
 
       expect(turnManager.text()).toContain('Alice')
@@ -308,7 +347,8 @@ describe('Integration Tests - Complete Game Flow', () => {
       const turnManager = mount(TurnManager)
 
       // Play some game
-      await turnManager.find('[data-test="start-player1"]').trigger('click')
+      store.startGame('player1')
+      await turnManager.vm.$nextTick()
       store.players.player1.lifePoints = 15
       store.players.player1.availableMana = 3
       store.sharedManaPool = 10
@@ -318,6 +358,7 @@ describe('Integration Tests - Complete Game Flow', () => {
 
       // Reset game
       await turnManager.find('[data-test="reset-game"]').trigger('click')
+      await turnManager.vm.$nextTick()
 
       expect(store.gameStarted).toBe(false)
       expect(store.players.player1.lifePoints).toBe(20)

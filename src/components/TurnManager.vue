@@ -7,21 +7,8 @@
     <!-- Pre-Game State -->
     <div v-if="!store.gameStarted" class="pre-game">
       <div class="phase-display">{{ store.currentPhaseInstructions }}</div>
-      <div class="start-buttons">
-        <button 
-          class="start-button player-red"
-          data-test="start-player1"
-          @click="startGame('player1')"
-        >
-          Start {{ store.players.player1.name }}
-        </button>
-        <button 
-          class="start-button player-blue"
-          data-test="start-player2"
-          @click="startGame('player2')"
-        >
-          Start {{ store.players.player2.name }}
-        </button>
+      <div class="pre-game-note" data-test="pre-game-note">
+        Use the Landing Page to flip a coin and start the game.
       </div>
     </div>
 
@@ -62,6 +49,7 @@
           End Turn
         </button>
         <button 
+          v-if="store.gameStarted"
           class="control-button reset-game"
           data-test="reset-game"
           @click="resetGame"
@@ -86,10 +74,6 @@ const currentPlayerName = computed(() => {
 const currentPlayerColor = computed(() => {
   return store.currentPlayer === 'player1' ? 'red' : 'blue'
 })
-
-const startGame = (player) => {
-  store.startGame(player)
-}
 
 const nextPhase = () => {
   store.nextPhase()

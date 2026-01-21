@@ -10,11 +10,12 @@ describe('TurnManager Component', () => {
   })
 
   describe('Rendering - Pre-Game', () => {
-    it('renders start buttons before game starts', () => {
+    it('does not render start buttons before game starts', () => {
       const wrapper = mount(TurnManager)
 
-      expect(wrapper.find('[data-test="start-player1"]').exists()).toBe(true)
-      expect(wrapper.find('[data-test="start-player2"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="start-player1"]').exists()).toBe(false)
+      expect(wrapper.find('[data-test="start-player2"]').exists()).toBe(false)
+      expect(wrapper.find('[data-test="pre-game-note"]').exists()).toBe(true)
     })
 
     it('displays setup phase message', () => {
@@ -32,40 +33,11 @@ describe('TurnManager Component', () => {
   })
 
   describe('Game Start', () => {
-    it('starts game when player1 button clicked', async () => {
+    it('shows active game controls after external start', async () => {
       const store = useGameStore()
       const wrapper = mount(TurnManager)
 
-      await wrapper.find('[data-test="start-player1"]').trigger('click')
-
-      expect(store.gameStarted).toBe(true)
-      expect(store.currentPlayer).toBe('player1')
-    })
-
-    it('starts game when player2 button clicked', async () => {
-      const store = useGameStore()
-      const wrapper = mount(TurnManager)
-
-      await wrapper.find('[data-test="start-player2"]').trigger('click')
-
-      expect(store.gameStarted).toBe(true)
-      expect(store.currentPlayer).toBe('player2')
-    })
-
-    it('hides start buttons after game starts', async () => {
-      const wrapper = mount(TurnManager)
-
-      await wrapper.find('[data-test="start-player1"]').trigger('click')
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.find('[data-test="start-player1"]').exists()).toBe(false)
-      expect(wrapper.find('[data-test="start-player2"]').exists()).toBe(false)
-    })
-
-    it('shows active game controls after start', async () => {
-      const wrapper = mount(TurnManager)
-
-      await wrapper.find('[data-test="start-player1"]').trigger('click')
+      store.startGame('player1')
       await wrapper.vm.$nextTick()
 
       expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(true)
@@ -257,9 +229,10 @@ describe('TurnManager Component', () => {
 
       await wrapper.find('[data-test="reset-game"]').trigger('click')
       await wrapper.vm.$nextTick()
-
-      expect(wrapper.find('[data-test="start-player1"]').exists()).toBe(true)
-      expect(wrapper.find('[data-test="start-player2"]').exists()).toBe(true)
+      expect(store.gameStarted).toBe(false)
+      expect(wrapper.find('[data-test="pre-game-note"]').exists()).toBe(true)
+      expect(wrapper.find('[data-test="next-phase"]').exists()).toBe(false)
+      expect(wrapper.find('[data-test="end-turn"]').exists()).toBe(false)
     })
   })
 })
